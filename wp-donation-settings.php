@@ -38,7 +38,7 @@
                 <tr>
                     <th scope="row"><label for="thankyou_message">Message</label></th>
                     <td>
-                        <textarea id="thankyou_message" name="wpdonation_thankyou_message">
+                        <textarea id="thankyou_message" name="wpdonation_thankyou_message" rows="2" cols="20">
                             <?php echo get_option('wpdonation_thankyou_message'); ?>
                         </textarea>
                     </td>
