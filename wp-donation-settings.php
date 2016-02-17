@@ -13,17 +13,19 @@
 		<table class="form-table">
             <tbody>
                 <tr>
-                    <th scope="row"><label for="stripe_public_key">Stripe Public Key</label></th>
-                    <td>
-                        <input type="text" id="stripe_public_key" name="wpdonation_stripe_public_key" value="<?php echo get_option('wpdonation_stripe_public_key'); ?>" />
-                    </td>
-                </tr>
-                <tr>
                     <th scope="row"><label for="stripe_secret_key">Stripe Secret Key</label></th>
                     <td>
                         <input type="text" id="stripe_secret_key" name="wpdonation_stripe_secret_key" value="<?php echo get_option('wpdonation_stripe_secret_key'); ?>" />
                     </td>
                 </tr>
+
+                <tr>
+                    <th scope="row"><label for="stripe_public_key">Stripe Public Key</label></th>
+                    <td>
+                        <input type="text" id="stripe_public_key" name="wpdonation_stripe_public_key" value="<?php echo get_option('wpdonation_stripe_public_key'); ?>" />
+                    </td>
+                </tr>
+                
             
             </tbody>
         </table>
