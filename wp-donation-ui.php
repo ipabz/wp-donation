@@ -1,133 +1,136 @@
-<section id="donatenow">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="row donationfund">
-            </div>
-            <div class="donationfields clearfix">
-
-                <div class="row donationopt">
-                    <div class="col-xs-6">
-                        <label for="donationopt_onetime" class="selected">
-                            <input class="radiobtn" checked="" type="radio" name="recurring_period" value="onetime" id="donationopt_onetime" autocomplete="off" />
-                            <span>One Time</span>
-                        </label>
-                    </div>
-                    <div class="col-xs-6">
-                        <label for="donationopt_monthly">
-                            <input class="radiobtn" type="radio" name="recurring_period" value="monthly" id="donationopt_monthly" autocomplete="off" />
-                            <span>Monthly</span>
-                        </label>
-                    </div>
+<form action="/" method="POST" id="payment-form" onSubmit="return validate_cc_exp();">
+<input type="hidden" name="organization_id" value="1" />
+    <section id="donatenow">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="row donationfund">
                 </div>
+                <div class="donationfields clearfix">
 
-                <div class="row donationpad">
-                    <div class="col-xs-3">
-                        <label for="donationamount_20">
-                            <input class="radiobtn" type="radio" name="amount" value="20" id="donationamount_20" autocomplete="off" />
-                            <span>$20</span>
-                        </label>
-                    </div>
-                    <div class="col-xs-3">
-                        <label for="donationamount_50">
-                            <input class="radiobtn" type="radio" name="amount" value="50" id="donationamount_50" autocomplete="off" />
-                            <span>$50</span>
-                        </label>
-                    </div>
-                    <div class="col-xs-3">
-                        <label for="donationamount_100">
-                            <input class="radiobtn" type="radio" name="amount" value="100" id="donationamount_100" autocomplete="off" />
-                            <span>$100</span>
-                        </label>
-                    </div>
-                    <div class="col-xs-3">
-                        <label for="donationamount_500">
-                            <input class="radiobtn" type="radio" name="amount" value="500" id="donationamount_500" autocomplete="off" />
-                            <span>$500</span>
-                        </label>
+                    <div class="row donationopt">
+                        <div class="col-xs-6">
+                            <label for="donationopt_onetime" class="selected">
+                                <input class="radiobtn" checked="" type="radio" name="recurring_period" value="onetime" id="donationopt_onetime" autocomplete="off" />
+                                <span>One Time</span>
+                            </label>
+                        </div>
+                        <div class="col-xs-6">
+                            <label for="donationopt_monthly">
+                                <input class="radiobtn" type="radio" name="recurring_period" value="monthly" id="donationopt_monthly" autocomplete="off" />
+                                <span>Monthly</span>
+                            </label>
+                        </div>
                     </div>
 
+                    <div class="row donationpad">
+                        <div class="col-xs-3">
+                            <label for="donationamount_20">
+                                <input class="radiobtn" type="radio" name="amount" value="20" id="donationamount_20" autocomplete="off" />
+                                <span>$20</span>
+                            </label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label for="donationamount_50">
+                                <input class="radiobtn" type="radio" name="amount" value="50" id="donationamount_50" autocomplete="off" />
+                                <span>$50</span>
+                            </label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label for="donationamount_100">
+                                <input class="radiobtn" type="radio" name="amount" value="100" id="donationamount_100" autocomplete="off" />
+                                <span>$100</span>
+                            </label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label for="donationamount_500">
+                                <input class="radiobtn" type="radio" name="amount" value="500" id="donationamount_500" autocomplete="off" />
+                                <span>$500</span>
+                            </label>
+                        </div>
 
-                    <div class="col-xs-3">
-                        <label for="donationamount_1000">
-                            <input class="radiobtn" type="radio" name="amount" value="1000" id="donationamount_1000" autocomplete="off" />
-                            <span>$1k</span>
-                        </label>
-                    </div>
-                    <div class="col-xs-3">
-                        <label for="donationamount_5000">
-                            <input class="radiobtn" type="radio" name="amount" value="5000" id="donationamount_5000" autocomplete="off" />
-                            <span>$5k</span>
-                        </label>
-                    </div>
-                    <div class="col-xs-3">
-                        <label for="donationamount_10000">
-                            <input class="radiobtn" type="radio" name="amount" value="10000" id="donationamount_10000" autocomplete="off" />
-                            <span>$10k</span>
-                        </label>
-                    </div>
-                    <div class="col-xs-3">
-                        <label for="donationamount_other">
-                            <input class="radiobtn" type="radio" name="amount" value="other" id="donationamount_other" autocomplete="off" />
-                            <span>Other</span>
-                        </label>
+
+                        <div class="col-xs-3">
+                            <label for="donationamount_1000">
+                                <input class="radiobtn" type="radio" name="amount" value="1000" id="donationamount_1000" autocomplete="off" />
+                                <span>$1k</span>
+                            </label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label for="donationamount_5000">
+                                <input class="radiobtn" type="radio" name="amount" value="5000" id="donationamount_5000" autocomplete="off" />
+                                <span>$5k</span>
+                            </label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label for="donationamount_10000">
+                                <input class="radiobtn" type="radio" name="amount" value="10000" id="donationamount_10000" autocomplete="off" />
+                                <span>$10k</span>
+                            </label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label for="donationamount_other">
+                                <input class="radiobtn" type="radio" name="amount" value="other" id="donationamount_other" autocomplete="off" />
+                                <span>Other</span>
+                            </label>
+                        </div>
+
+                        <div id="donationamount_otherinput" class="col-xs-12 hidden">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon" for="coverccfee">$</div>
+                                    <input type="text" class="form-control numeric" name="otheramount" id="otheramount" placeholder="" />
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
 
-                    <div id="donationamount_otherinput" class="col-xs-12 hidden">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon" for="coverccfee">$</div>
-                                <input type="text" class="form-control numeric" name="otheramount" id="otheramount" placeholder="" />
+                    <div class="row donationaddinfo">
+                        <div class="col-xs-12">
+                            <div class="checkbox">
+                                <label for="addinfo">
+                                    <input type="checkbox" name="donationaddinfo" id="addinfo" /> Add additional information
+                                </label>
+                            </div>
+                            <div id="addinfotext" class="form-group hidden">
+                                <textarea class="form-control" name="note" rows="4"></textarea>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="donationaddinfo_covercc" id="covercc" /> I will cover the credit card processing fee
+                                </label>
+                            </div>
+                            <div id="covercctext" class="hidden">
+
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon" for="coverccfee">Fee Amount</div>
+                                        <input type="text" class="form-control" id="coverccfee" placeholder="Amount" value="0.00" disabled />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon" for="covercctotal">Total Donation</div>
+                                        <input type="text" class="form-control" id="covercctotal" placeholder="Amount" value="0.00" disabled />
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
 
-
                 </div>
 
-                <div class="row donationaddinfo">
+                <div class="row donationsubmit">
                     <div class="col-xs-12">
-                        <div class="checkbox">
-                            <label for="addinfo">
-                                <input type="checkbox" name="donationaddinfo" id="addinfo" /> Add additional information
-                            </label>
-                        </div>
-                        <div id="addinfotext" class="form-group hidden">
-                            <textarea class="form-control" name="note" rows="4"></textarea>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="donationaddinfo_covercc" id="covercc" /> I will cover the credit card processing fee
-                            </label>
-                        </div>
-                        <div id="covercctext" class="hidden">
-
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-addon" for="coverccfee">Fee Amount</div>
-                                    <input type="text" class="form-control" id="coverccfee" placeholder="Amount" value="0.00" disabled />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-addon" for="covercctotal">Total Donation</div>
-                                    <input type="text" class="form-control" id="covercctotal" placeholder="Amount" value="0.00" disabled />
-                                </div>
-                            </div>
-
-                        </div>
+                        <input type="button" name="name" class="btn btn-lg btn-primary btn-donate" value="Donate" data-toggle="modal" data-target=""/>
                     </div>
-                </div>
-
-            </div>
-
-            <div class="row donationsubmit">
-                <div class="col-xs-12">
-                    <input type="button" name="name" class="btn btn-lg btn-primary btn-donate" value="Donate" data-toggle="modal" data-target=""/>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</form>
 <div class="modal fade" id="donor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
