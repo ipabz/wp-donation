@@ -1,0 +1,226 @@
+/* 	==========================================================================
+	CUSTOM CSS
+
+	$maincolor: #0da7d4;
+	$maincolordark: #014c6c;
+
+	$halftonecolor1: #eeeeee;
+	$halftonecolor2: #cccccc;
+
+	$white: #ffffff;
+	$grey: #646464;
+
+	========================================================================== */
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	line-height: 22px;
+	color: #646464;
+	background: #ffffff;
+	}
+
+* a {transition-duration:.25s;}
+* a:hover, * a:focus {text-decoration:none;}
+
+::-moz-selection {text-shadow: none;background: #0da7d4;color: #ffffff;}
+::selection {text-shadow: none;background: #0da7d4;color: #ffffff;}
+
+input:focus, textarea:focus, select:focus {box-shadow:0 0 0 0;outline:none;}
+
+.btn, input, button, textarea, select {border-radius:0}
+
+.btn {
+	border-radius: 4px;
+}
+	.btn.btn-primary {
+		background: #014c6c;
+		transition-duration: .25s;
+	}
+	.btn.btn-primary:hover {
+		background: #0da7d4;
+	}
+
+	.btn:active,
+	.btn:focus {
+		box-shadow: none;
+		outline: 0!important;
+	}
+
+#donatenow {
+	
+}
+
+	.donationheader > div,
+	.donationfund > div,
+	.donationopt > div,
+	.donationpad > div {
+		padding: 6px;
+	}
+
+	.donationheader {
+		text-align: center;
+		padding: 0 0;
+		margin-bottom: 12px;
+	}
+	.donationheader h2 {
+		padding: 0;
+		margin: 20px 0 0 0;
+		font-weight: 700;
+	}
+
+	.donationfund {
+		margin-bottom: 24px;
+	}
+	.donationfund select.form-control {
+		border: 1px solid #eeeeee;
+		box-shadow: none;
+		padding: 4px 12px;
+		height: 44px;
+		font-weight: 700;
+		font-size: 16px;
+	}
+
+	.donationpad label {
+		display: block;
+		background: #0da7d4;
+		color: #ffffff;
+		margin-bottom: 0;
+		padding: 30% 0;
+		overflow: hidden;
+		position: relative;
+		cursor: pointer;
+		transition-duration: .25s;
+		border-radius: 4px;
+		font-weight: 300;
+	}
+	.donationpad label.selected {
+		background: #014c6c;
+	}
+	.donationpad label input {
+		position: absolute;
+		left: -100px;
+	}
+	.donationpad label span {
+		display: block;
+		text-align: center;
+		font-size: 36px;
+		line-height: 36px;
+	}
+
+	#donationamount_otherinput .input-group-addon {
+		border: 0;
+		background: #0da7d4;
+		text-align: center;
+		font-weight: 700;
+		color: #ffffff;
+		padding-left: 20px;
+		padding-right: 20px;
+		font-size: 16px;
+	}
+	#otheramount {
+		background: #014c6c;
+		color: #ffffff;
+		border: 0;
+		box-shadow: none;
+		height: 44px;
+		font-size: 16px;
+	}
+
+	.donationopt label {
+		display: block;
+		background: #eeeeee;
+		color: #646464;
+		margin-bottom: 0;
+		padding: 10px 0;
+		overflow: hidden;
+		position: relative;
+		cursor: pointer;
+		text-align: center;
+		transition-duration: .25s;
+		font-weight: 400;
+		border-radius: 4px;
+	}
+	.donationopt label.selected {
+		background: #cccccc;
+	}
+	.donationopt label input {
+		position: absolute;
+		left: -100px;
+	}
+	.donationopt label span {
+		font-size: 20px;
+	}
+
+	.donationsubmit > div,
+	.donationaddinfo > div {
+		padding: 6px;
+	}
+	.donationaddinfo textarea.form-control {
+		border-radius: 4px;
+		border: 1px solid #eeeeee;
+		box-shadow: none;
+		padding: 10px 12px;
+	}
+
+	.donationaddinfo .input-group-addon {
+		width: 140px;
+		text-align: right;
+		font-weight: 700;
+		border: 0;
+		background: #014c6c;
+		color: #ffffff;
+		cursor: pointer;
+	}
+	.donationaddinfo input.form-control {
+		height: 44px;
+		box-shadow: none;
+		border: 0;
+		background: #ffffff;
+		border: 1px solid #eeeeee;
+		font-weight: 700;
+	}
+
+	.donationsubmit {
+		margin-top: 12px;
+	}
+	.donationsubmit .btn {
+		display: block;
+		width: 100%;
+		font-size: 20px;
+	}
+
+#donor {}
+
+	.modal-content {
+		border: 0;
+		box-shadow: none;
+	}
+
+	.modal-header {
+		border-bottom: 1px solid #eeeeee;
+	}
+	.modal-header h4 {
+		font-weight: 700;
+	}
+
+	.modal-body {}
+	.modal-body .form-group {
+		margin: 12px 0;
+	}
+	.modal-body .control-label {
+		line-height: 24px;
+		padding-top: 10px;
+		cursor: pointer;
+	}
+	.modal-body .form-control {
+		height: 44px;
+		border: 1px solid #eeeeee;
+		box-shadow: none;
+	}
+	.modal-body .form-control:focus {
+		border-color: #0da7d4;
+	}
+
+	.modal-footer {
+		border-top: 1px solid #eeeeee;
+	}
