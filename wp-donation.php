@@ -75,8 +75,8 @@ class WPDonation {
 		// put scripts, styles here for the frontend
 	}
 	
-	public function wpdonation_form(){
-        require_once( plugin_dir_path( __FILE__ ) . 'ui.php' );
+	public function wpdonation_ui(){
+        require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-ui.php' );
     }
     
     
