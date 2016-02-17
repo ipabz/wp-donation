@@ -40,7 +40,7 @@ class WPDonation {
 		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_frontend_scripts_styles'));
 		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_backend_scripts_styles'));
         
-        add_shortcode('wp-donation', array($this,'wpdonation_form'));
+        add_shortcode('wp-donation', array($this,'wpdonation_ui'));
 	}
 	
 
