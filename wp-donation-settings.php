@@ -22,7 +22,33 @@
         </table>
         
 
-        <h2>Stripe API Keys</h2>
+        <h2 style="margin-top: 50px;">Thank You Message</h2>
+        <p class="about-description">Enter the verbiage that will show up in the Thank You Message.</p>
+        <br />
+        
+        <table class="form-table">
+            <tbody>
+                <tr>
+                    <th scope="row"><label for="thankyou_heading">Heading</label></th>
+                    <td>
+                        <input type="text" id="thankyou_heading" name="wpdonation_thankyou_heading" value="<?php echo get_option('wpdonation_thankyou_heading'); ?>" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row"><label for="thankyou_message">Message</label></th>
+                    <td>
+                        <textarea id="thankyou_message" name="wpdonation_thankyou_message">
+                            <?php echo get_option('wpdonation_thankyou_message'); ?>
+                        </textarea>
+                    </td>
+                </tr>
+                
+            
+            </tbody>
+        </table>
+
+        <h2 style="margin-top: 50px;">Stripe API Keys</h2>
         <p class="about-description">Login to your Stripe Account, copy the API keys and put it here.</p>
         <br />
         

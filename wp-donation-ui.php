@@ -24,46 +24,46 @@
 
                     <div class="row donationpad">
                         <div class="col-xs-3">
-                            <label for="donationamount_20">
-                                <input class="radiobtn" type="radio" name="amount" value="20" id="donationamount_20" autocomplete="off" />
+                            <label for="donationamount_1">
+                                <input class="radiobtn" type="radio" name="amount" value="20" id="donationamount_1" autocomplete="off" />
                                 <span>$20</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
-                            <label for="donationamount_50">
-                                <input class="radiobtn" type="radio" name="amount" value="50" id="donationamount_50" autocomplete="off" />
+                            <label for="donationamount_2">
+                                <input class="radiobtn" type="radio" name="amount" value="50" id="donationamount_2" autocomplete="off" />
                                 <span>$50</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
-                            <label for="donationamount_100">
-                                <input class="radiobtn" type="radio" name="amount" value="100" id="donationamount_100" autocomplete="off" />
+                            <label for="donationamount_3">
+                                <input class="radiobtn" type="radio" name="amount" value="100" id="donationamount_3" autocomplete="off" />
                                 <span>$100</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
-                            <label for="donationamount_500">
-                                <input class="radiobtn" type="radio" name="amount" value="500" id="donationamount_500" autocomplete="off" />
+                            <label for="donationamount_4">
+                                <input class="radiobtn" type="radio" name="amount" value="500" id="donationamount_4" autocomplete="off" />
                                 <span>$500</span>
                             </label>
                         </div>
 
 
                         <div class="col-xs-3">
-                            <label for="donationamount_1000">
-                                <input class="radiobtn" type="radio" name="amount" value="1000" id="donationamount_1000" autocomplete="off" />
+                            <label for="donationamount_5">
+                                <input class="radiobtn" type="radio" name="amount" value="1000" id="donationamount_5" autocomplete="off" />
                                 <span>$1k</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
-                            <label for="donationamount_5000">
-                                <input class="radiobtn" type="radio" name="amount" value="5000" id="donationamount_5000" autocomplete="off" />
+                            <label for="donationamount_6">
+                                <input class="radiobtn" type="radio" name="amount" value="5000" id="donationamount_6" autocomplete="off" />
                                 <span>$5k</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
-                            <label for="donationamount_10000">
-                                <input class="radiobtn" type="radio" name="amount" value="10000" id="donationamount_10000" autocomplete="off" />
+                            <label for="donationamount_7">
+                                <input class="radiobtn" type="radio" name="amount" value="10000" id="donationamount_7" autocomplete="off" />
                                 <span>$10k</span>
                             </label>
                         </div>
@@ -137,7 +137,7 @@
 
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Donate to Midamerica Prison Ministry</h4>
+				<h4 class="modal-title" id="myModalLabel">Donate to Mid-America Prison Ministries</h4>
 			</div>
 
 			<div class="modal-body">
