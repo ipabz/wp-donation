@@ -51,7 +51,9 @@ class WPDonation {
 		      'labels' => array(
 		        'name' => __( 'Donors' ),
 		        'singular_name' => __( 'Donor' ),
-		        'add_new_item' => __('Add New Donor')
+		        'add_new' => __('Add New Donor'),
+		        'add_new_item' => __('Add New Donor'),
+		        'edit_item' => __('Edit Donor')
 		      ),
 		      'public' => true,
 		      'has_archive' => true,
@@ -115,12 +117,12 @@ class WPDonation {
 
 		$custom = get_post_custom($post->ID);
 		$name = $custom["wpdonation_donor_name"][0];
-		$email = $custom["wpdonation_donor_email"][1];
-		$address = $custom["wpdonation_donor_address"][2];
-		$city = $custom["wpdonation_donor_city"][3];
-		$state = $custom["wpdonation_donor_state"][4];
-		$zipcode = $custom["wpdonation_donor_zipcode"][5];
-		$country = $custom["wpdonation_donor_country"][6];
+		$email = $custom["wpdonation_donor_email"][0];
+		$address = $custom["wpdonation_donor_address"][0];
+		$city = $custom["wpdonation_donor_city"][0];
+		$state = $custom["wpdonation_donor_state"][0];
+		$zipcode = $custom["wpdonation_donor_zipcode"][0];
+		$country = $custom["wpdonation_donor_country"][0];
 
 		?>
 		<table>
