@@ -38,7 +38,8 @@ class WPDonation {
 		add_action('admin_menu', array($this, 'wpdonation_settings_page'));
 		add_action('admin_init', array($this, 'wpdonation_register_settings'));
 		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_frontend_scripts_styles'));
-		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_backend_scripts_styles'));       
+		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_backend_scripts_styles'));
+        
         add_shortcode('wp-donation', array($this,'wpdonation_ui'));
 		$this->create_post_types();
 	}
@@ -172,8 +173,32 @@ class WPDonation {
 	}
 
 	
-	public function wpdonation_ui(){
-        require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-ui.php' );
+	public function wpdonation_ui(){        
+        if($_POST and !$_SESSION['submitted']){ 
+            $post = array(
+                'post_title' => $_POST['wpdonation_donor_name'],
+                'tags_input' => $tags,
+                'post_status' => 'publish',
+                'post_type' => 'wpdonation_donors'
+            );
+            
+            $post = wp_insert_post($post);
+            
+            update_post_meta($post, "wpdonation_donor_name", $_POST["wpdonation_donor_name"]);
+            update_post_meta($post, "wpdonation_donor_email", $_POST["wpdonation_donor_email"]);
+            update_post_meta($post, "wpdonation_donor_address", $_POST["wpdonation_donor_address"]);
+            update_post_meta($post, "wpdonation_donor_city", $_POST["wpdonation_donor_city"]);
+            update_post_meta($post, "wpdonation_donor_state", $_POST["wpdonation_donor_state"]);
+            update_post_meta($post, "wpdonation_donor_zipcode", $_POST["wpdonation_donor_zipcode"]);
+            update_post_meta($post, "wpdonation_donor_country", $_POST["wpdonation_donor_country"]);
+            
+            require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-thankyou.php' );
+            
+            $_SESSION['submitted'] = true;
+        }else{
+            $_SESSION['submitted'] = false;
+            require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-ui.php' );
+        }
     }
     
     
