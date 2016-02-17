@@ -1,11 +1,27 @@
 <div class="wrap">
-	<h2>WP Donation Settings</h2>
+	<h2>WP-Donation Settings</h2>
     
 	<div id="welcome-panel" class="welcome-panel">
     <form method="post" action="options.php" class="welcome-panel-content">
     	<?php settings_fields('wpdonation_settings'); ?>
 		<?php do_settings_sections('wpdonation_settings'); ?> 
 		
+        <h2>Organization Details</h2>
+        <p class="about-description">Enter the details of the organization that will receive the donation.</p>
+        <br />
+        
+        <table class="form-table">
+            <tbody>
+                <tr>
+                    <th scope="row"><label for="organization_name">Organization Name</label></th>
+                    <td>
+                        <input type="text" id="organization_name" name="wpdonation_organization_name" value="<?php echo get_option('wpdonation_organization_name'); ?>" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+
         <h2>Stripe API Keys</h2>
         <p class="about-description">Login to your Stripe Account, copy the API keys and put it here.</p>
         <br />
