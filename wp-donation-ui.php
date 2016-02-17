@@ -168,13 +168,6 @@
 					</div>
 
 					<div class="form-group">
-						<label for="donor_postcode" class="col-sm-4 control-label">Post Code</label>
-						<div class="col-sm-8">
-							<input type="text" name="wpdonation_donor_zipcode" required="" class="form-control numeric" id="donor_postcode" placeholder="Post Code">
-						</div>
-					</div>
-
-					<div class="form-group">
 						<label for="donor_city" class="col-sm-4 control-label">City</label>
 						<div class="col-sm-8">
 							<input type="text" name="wpdonation_donor_city" required="" class="form-control" id="donor_city" placeholder="City">
@@ -182,6 +175,13 @@
 					</div>
 
 					<div class="form-group">
+                        <label for="donor_zipcode" class="col-sm-4 control-label">Zip Code</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="wpdonation_donor_zipcode" required="" class="form-control numeric" id="donor_zipcode" placeholder="Zip Code">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
 						<label for="donor_cardnum" class="col-sm-4 control-label">Card Number</label>
 						<div class="col-sm-8">
 							<input type="text" data-stripe="number" name="card_number" required="" class="form-control numeric" id="donor_cardnum" placeholder="Card Number">
