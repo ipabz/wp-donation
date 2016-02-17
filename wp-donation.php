@@ -161,7 +161,7 @@ class WPDonation {
 		global $post;
  		
   		update_post_meta($post->ID, "wpdonation_donor_name", $_POST["wpdonation_donor_name"]);
-  		update_post_meta($post->ID, "wpdonation_donor_email", $_POST["wpdonation_donor_email"]);3
+  		update_post_meta($post->ID, "wpdonation_donor_email", $_POST["wpdonation_donor_email"]);
   		update_post_meta($post->ID, "wpdonation_donor_address", $_POST["wpdonation_donor_address"]);
   		update_post_meta($post->ID, "wpdonation_donor_city", $_POST["wpdonation_donor_city"]);
   		update_post_meta($post->ID, "wpdonation_donor_state", $_POST["wpdonation_donor_state"]);
