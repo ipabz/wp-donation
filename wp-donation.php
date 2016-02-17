@@ -31,19 +31,30 @@ class WPDonation {
 	public function init()
 	{
 		add_action('admin_menu', array($this, 'wpdonation_settings_page'));
+		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_frontend_scripts_styles'));
+		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_backend_scripts_styles'));
 	}
 	
 
-	function wpdonation_settings_page() {
+	public function wpdonation_settings_page() {
 		add_options_page( 'WP-Donation Options', 'WP-Donation', 'manage_options', 'WP-Donation', array($this, 'wpdonation_settings_page_content') );
 	}
 
-	function wpdonation_settings_page_content() {
+	public function wpdonation_settings_page_content() {
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 		$blog_url = rtrim(site_url(), "/") . "/";
 		include 'wp-donation-settings.php';
+	}
+	
+	
+	public function wpdonation_init_frontend_scripts_styles() {
+		// put scripts, styles here for the frontend
+	}
+	
+	public function wpdonation_init_backend_scripts_styles() {
+		// put scripts, styles here for the frontend
 	}
 	
 	
