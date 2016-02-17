@@ -4,9 +4,9 @@
  */
 /*
 Plugin Name: WP-Donation
-Description: Donation plugin designed for Midamerica Prison Ministry
-Author: FindingInnovation
-Author URI: http://findinginnovation.com/
+Description: Donation Plugin for Stripe
+Author: Squiggle Group
+Author URI: http://squigglegroup.com/
 License: GPLv2 or later
 */
 
