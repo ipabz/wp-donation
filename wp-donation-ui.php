@@ -1,5 +1,5 @@
-<form action="/" method="POST" id="payment-form" onSubmit="return validate_cc_exp();">
-<input type="hidden" name="organization_id" value="1" />
+<form action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ) ?>" method="POST" id="payment-form" onSubmit="return validate_cc_exp();">
+    <input type="hidden" name="organization_id" value="1" />
     <section id="donatenow">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">

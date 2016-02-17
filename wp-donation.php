@@ -40,6 +40,12 @@ class WPDonation {
 		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_frontend_scripts_styles'));
 		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_backend_scripts_styles'));
         
+        if($_POST){
+            
+        }else{
+        
+        }
+        
         add_shortcode('wp-donation', array($this,'wpdonation_ui'));
 	}
 	
@@ -88,7 +94,11 @@ class WPDonation {
 	}
 	
 	public function wpdonation_ui(){
-        require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-ui.php' );
+        if($_POST){
+            require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-thankyou.php' );
+        }else{
+            require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-ui.php' );
+        }
     }
     
     
