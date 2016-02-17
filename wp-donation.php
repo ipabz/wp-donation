@@ -40,13 +40,26 @@ class WPDonation {
 		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_frontend_scripts_styles'));
 		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_backend_scripts_styles'));
         
-        if($_POST){
-            
-        }else{
-        
-        }
-        
         add_shortcode('wp-donation', array($this,'wpdonation_ui'));
+		$this->create_post_types();
+	}
+	
+	
+	protected function create_post_types()
+	{
+		register_post_type( 'wpdonation_donors',
+		    array(
+		      'labels' => array(
+		        'name' => __( 'Donors' ),
+		        'singular_name' => __( 'Donor' ),
+		        'add_new_item' => __('Add New Donor')
+		      ),
+		      'public' => true,
+		      'has_archive' => true,
+		      'supports' => array('title')
+		    )
+		  );
+
 	}
 	
 
@@ -91,12 +104,97 @@ class WPDonation {
 		foreach ($this->settings as $setting_name => $default_value) {
 			register_setting('wpdonation_settings', $setting_name);
 		}
+
+		add_meta_box("wpdonation_donor_custom_fields", "Donor Info", array($this, "wpdonation_donor_custom_fields"), "wpdonation_donors", "normal", "low");
+		add_action('save_post', array($this, 'wpdonation_donor_save_details')); 
 	}
+
+
+	public function wpdonation_donor_custom_fields()
+	{
+		global $post;
+
+		$custom = get_post_custom($post->ID);
+		$name = $custom["wpdonation_donor_name"][0];
+		$email = $custom["wpdonation_donor_email"][0];
+		$address = $custom["wpdonation_donor_address"][0];
+		$city = $custom["wpdonation_donor_city"][0];
+		$state = $custom["wpdonation_donor_state"][0];
+		$zipcode = $custom["wpdonation_donor_zipcode"][0];
+		$country = $custom["wpdonation_donor_country"][0];
+
+		?>
+		<table>
+			<tr>
+				<td>Donor Name</td>
+				<td><input type="text" name="wpdonation_donor_name" value="<?php echo $name; ?>" /></td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td><input type="text" name="wpdonation_donor_email" value="<?php echo $email; ?>" /></td>
+			</tr>
+			<tr>
+				<td>Address</td>
+				<td><input type="text" name="wpdonation_donor_address" value="<?php echo $address; ?>" /></td>
+			</tr>
+			<tr>
+				<td>City</td>
+				<td><input type="text" name="wpdonation_donor_city" value="<?php echo $city; ?>" /></td>
+			</tr>
+			<tr>
+				<td>State</td>
+				<td><input type="text" name="wpdonation_donor_state" value="<?php echo $state; ?>" /></td>
+			</tr>
+			<tr>
+				<td>Zip Code</td>
+				<td><input type="text" name="wpdonation_donor_zipcode" value="<?php echo $zipcode; ?>" /></td>
+			</tr>
+			<tr>
+				<td>Country</td>
+				<td><input type="text" name="wpdonation_donor_country" value="<?php echo $country; ?>" /></td>
+			</tr>
+		</table>
+		<?php
+	}
+
+	public function wpdonation_donor_save_details()
+	{
+		global $post;
+ 		
+  		update_post_meta($post->ID, "wpdonation_donor_name", $_POST["wpdonation_donor_name"]);
+  		update_post_meta($post->ID, "wpdonation_donor_email", $_POST["wpdonation_donor_email"]);
+  		update_post_meta($post->ID, "wpdonation_donor_address", $_POST["wpdonation_donor_address"]);
+  		update_post_meta($post->ID, "wpdonation_donor_city", $_POST["wpdonation_donor_city"]);
+  		update_post_meta($post->ID, "wpdonation_donor_state", $_POST["wpdonation_donor_state"]);
+  		update_post_meta($post->ID, "wpdonation_donor_zipcode", $_POST["wpdonation_donor_zipcode"]);
+  		update_post_meta($post->ID, "wpdonation_donor_country", $_POST["wpdonation_donor_country"]);
+	}
+
 	
-	public function wpdonation_ui(){
-        if($_POST){
+	public function wpdonation_ui(){        
+        if($_POST and !$_SESSION['submitted']){ 
+            $post = array(
+                'post_title' => $_POST['wpdonation_donor_name'],
+                'tags_input' => $tags,
+                'post_status' => 'publish',
+                'post_type' => 'wpdonation_donors'
+            );
+            
+            $post = wp_insert_post($post);
+            
+            update_post_meta($post, "wpdonation_donor_name", $_POST["wpdonation_donor_name"]);
+            update_post_meta($post, "wpdonation_donor_email", $_POST["wpdonation_donor_email"]);
+            update_post_meta($post, "wpdonation_donor_address", $_POST["wpdonation_donor_address"]);
+            update_post_meta($post, "wpdonation_donor_city", $_POST["wpdonation_donor_city"]);
+            update_post_meta($post, "wpdonation_donor_state", $_POST["wpdonation_donor_state"]);
+            update_post_meta($post, "wpdonation_donor_zipcode", $_POST["wpdonation_donor_zipcode"]);
+            update_post_meta($post, "wpdonation_donor_country", $_POST["wpdonation_donor_country"]);
+            
             require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-thankyou.php' );
+            
+            $_SESSION['submitted'] = true;
         }else{
+            $_SESSION['submitted'] = false;
             require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-ui.php' );
         }
     }

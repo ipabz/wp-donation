@@ -1,4 +1,4 @@
-<form action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ) ?>" method="POST" id="payment-form" onSubmit="return validate_cc_exp();">
+<form action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ) ?>" method="POST" id="payment-form" name="payment-form" onSubmit="return validate_cc_exp();">
     <input type="hidden" name="organization_id" value="1" />
     <section id="donatenow">
         <div class="row">
@@ -149,35 +149,35 @@
 					<div class="form-group">
 						<label for="donor_email" class="col-sm-4 control-label">Email</label>
 						<div class="col-sm-8">
-							<input type="text" name="email" required="" class="form-control" id="donor_email" placeholder="Email" >
+							<input type="text" name="wpdonation_donor_email" required="" class="form-control" id="donor_email" placeholder="Email" >
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="donor_name" class="col-sm-4 control-label">Name</label>
 						<div class="col-sm-8">
-							<input type="text" name="name" required="" class="form-control" id="donor_name" placeholder="Full Name">
+							<input type="text" name="wpdonation_donor_name" required="" class="form-control" id="donor_name" placeholder="Full Name">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="donor_address" class="col-sm-4 control-label">Address</label>
 						<div class="col-sm-8">
-							<input type="text" name="address" required="" class="form-control" id="donor_address" placeholder="Address">
+							<input type="text" name="wpdonation_donor_address" required="" class="form-control" id="donor_address" placeholder="Address">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="donor_postcode" class="col-sm-4 control-label">Post Code</label>
 						<div class="col-sm-8">
-							<input type="text" name="zipcode" required="" class="form-control numeric" id="donor_postcode" placeholder="Post Code">
+							<input type="text" name="wpdonation_donor_zipcode" required="" class="form-control numeric" id="donor_postcode" placeholder="Post Code">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="donor_city" class="col-sm-4 control-label">City</label>
 						<div class="col-sm-8">
-							<input type="text" name="city" required="" class="form-control" id="donor_city" placeholder="City">
+							<input type="text" name="wpdonation_donor_city" required="" class="form-control" id="donor_city" placeholder="City">
 						</div>
 					</div>
 
