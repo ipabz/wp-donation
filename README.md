@@ -1,6 +1,6 @@
 # Setup
 
-1) Upload the to the /wp-content/plugins/ directory
+1) Upload to the /wp-content/plugins/ directory
 
 2) On the wordpress wp-config.php file, add the following line then save
 
