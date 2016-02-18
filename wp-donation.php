@@ -57,8 +57,47 @@ class WPDonation {
 	
 	public function __construct() 
 	{
+		add_filter( 'cron_schedules', array($this, 'wpdonation_cron_add_minute') );
+		register_activation_hook(__FILE__, array($this, 'wpdonation_activate'));
+		register_deactivation_hook(__FILE__, array($this, 'wpdonation_deactivate'));
 		add_action('init', array($this, 'init'));		
 	}
+
+	public static function wpdonation_activate() 
+	{
+		wp_schedule_event( time(), 'everyminute', 'wpdonation_cron_job' );
+	}
+
+	public static function wpdonation_deactivate() 
+	{
+		wp_clear_scheduled_hook('wpdonation_cron_job');
+	}
+
+	public function wpdonation_recurring_donations()
+	{
+		$query = new WP_Query( array( 'post_type' => 'wpdonation_donors' ) );
+
+		if ( $query->have_posts() ) {
+
+			while ( $query->have_posts() ) {
+				$query->the_post();
+				echo '' . get_the_title() . '<br />';
+			}
+
+		}
+	}
+
+	// Use for testing only
+	public function wpdonation_cron_add_minute( $schedules ) 
+	{
+	    $schedules['everyminute'] = array(
+		    'interval' => 60,
+		    'display' => __( 'Once Every Minute' )
+	    );
+
+	    return $schedules;
+	}
+
 	
 	public function init()
 	{
@@ -72,6 +111,8 @@ class WPDonation {
         
         add_filter( 'manage_wpdonation_donors_posts_columns', array($this,'set_custom_edit_donor_columns') );
         add_action( 'manage_wpdonation_donors_posts_custom_column' , array($this,'custom_donor_column'), 10 ,2 );
+
+        add_action( 'wpdonation_cron_job',  array($this, 'wpdonation_recurring_donations') );
 	}
 	
 	
@@ -356,26 +397,37 @@ class WPDonation {
 
 		try {
 
-			$customer = \Stripe\Customer::create([
-				'email' => $donorDetails['wpdonation_donor_email'],
-				'metadata' => [
-					'name' => $donorDetails['wpdonation_donor_name'],
-					'address' => $donorDetails['wpdonation_donor_address'],
-					'city' => $donorDetails['wpdonation_donor_city'],
-					'zipcode' => $donorDetails['wpdonation_donor_zipcode']
-				],
-				'card' => $card
-			]);
+			$customerID = get_post_meta($postID, 'wpdonation_donor_stripe_customer_id');
+
+			if ( !$customerID ) {
+				$customer = \Stripe\Customer::create([
+					'email' => $donorDetails['wpdonation_donor_email'],
+					'metadata' => [
+						'name' => $donorDetails['wpdonation_donor_name'],
+						'address' => $donorDetails['wpdonation_donor_address'],
+						'city' => $donorDetails['wpdonation_donor_city'],
+						'zipcode' => $donorDetails['wpdonation_donor_zipcode']
+					],
+					'card' => $card
+				]);
+
+				$customerID = $customer->id;
+			}
 
 			$charge = \Stripe\Charge::create([
 				'amount' => $amount, 
 				'currency' => $currency,
 				'description' => $description,
 				'metadata' => $metaData,
-				'customer' => $customer->id
+				'customer' => $customerID
 			]);
 
-			update_post_meta($postID, "wpdonation_donor_stripe_customer_id", $customer->id);    
+			$thePost = get_post($postID);
+
+			if ( !$customerID ) {
+				update_post_meta($postID, "wpdonation_donor_stripe_customer_id", $customer->id); 
+			}
+			   
 
 		} catch(Exception $e) {
 			return $e->getMessage();
