@@ -57,8 +57,110 @@ class WPDonation {
 	
 	public function __construct() 
 	{
+		add_filter( 'cron_schedules', array($this, 'wpdonation_cron_add_minute') );
+		register_activation_hook(__FILE__, array($this, 'wpdonation_activate'));
+		register_deactivation_hook(__FILE__, array($this, 'wpdonation_deactivate'));
 		add_action('init', array($this, 'init'));		
 	}
+
+	public static function wpdonation_activate() 
+	{
+		wp_schedule_event( time(), 'everyminute', 'wpdonation_cron_job' );
+	}
+
+	public static function wpdonation_deactivate() 
+	{
+		wp_clear_scheduled_hook('wpdonation_cron_job');
+	}
+
+	public function wpdonation_recurring_donations()
+	{
+		$query = new WP_Query( array( 'post_type' => 'wpdonation_donors' ) );
+
+		if ( $query->have_posts() ) {
+
+			while ( $query->have_posts() ) {
+				$query->the_post();
+				$this->wpdonation_do_charge();
+			}
+
+			wp_reset_postdata();
+
+		}
+	}
+
+	public function wpdonation_do_charge()
+	{
+		global $post;
+
+		$custom = get_post_custom($post->ID);
+
+		if ( $custom["wpdonation_donor_recur_status"][0] === 'Active' && $custom["wpdonation_donor_recur"][0] === 'monthly' ) {
+
+			$nextRecur = $custom['wpdonation_donor_next_recur'][0];
+
+			
+			if ( date('Y-m-d') === $nextRecur ) {
+
+				$name = $custom["wpdonation_donor_name"][0];
+				$email = $custom["wpdonation_donor_email"][0];
+				$address = $custom["wpdonation_donor_address"][0];
+				$city = $custom["wpdonation_donor_city"][0];
+				$state = $custom["wpdonation_donor_state"][0];
+				$zipcode = $custom["wpdonation_donor_zipcode"][0];
+				$country = $custom["wpdonation_donor_country"][0];
+		        $recur = $custom["wpdonation_donor_recur"][0];
+		        $amount = $custom["wpdonation_donor_amount"][0];
+		        $fee = $custom["wpdonation_donor_fee"][0];
+		        $note = $custom["wpdonation_donor_note"][0];
+		        $stripeID = $custom['wpdonation_donor_stripe_customer_id'][0];
+
+		        $desc = "Recurring Donation from " . $name;
+
+		        $metaData = [
+					'Organization' => get_option('wpdonation_organization_name'),
+					'Donor Name' => $name,
+					'Address' => $address . ', ' . $city . ' ' . $zipcode
+				];
+
+				$coverFee = false;
+
+				if ( isset($_POST['donationaddinfo_covercc']) ) {
+					$coverFee = true;
+				} 
+
+				$date = date("Y-m-d");
+            	$next = date('Y-m-d', strtotime(date("Y-m-d", strtotime($date)) . " +1 month"));
+				update_post_meta($post->ID, "wpdonation_donor_next_recur", $next);
+
+		        $c = $this->charge(
+		        		$_POST['wpdonation_card_number'],
+		        		$_POST['wpdonation_exp_month'],
+		        		$_POST['wpdonation_exp_year'],
+		        		$amount,
+		        		$desc,
+		        		$coverFee,
+		        		$metaData,
+		        		$post->ID
+		        	);
+
+			}
+
+	    }
+
+	}
+
+	// Use for testing only
+	public function wpdonation_cron_add_minute( $schedules ) 
+	{
+	    $schedules['everyminute'] = array(
+		    'interval' => 60,
+		    'display' => __( 'Once Every Minute' )
+	    );
+
+	    return $schedules;
+	}
+
 	
 	public function init()
 	{
@@ -72,6 +174,8 @@ class WPDonation {
         
         add_filter( 'manage_wpdonation_donors_posts_columns', array($this,'set_custom_edit_donor_columns') );
         add_action( 'manage_wpdonation_donors_posts_custom_column' , array($this,'custom_donor_column'), 10 ,2 );
+
+        add_action( 'wpdonation_cron_job',  array($this, 'wpdonation_recurring_donations') );
 	}
 	
 	
@@ -159,7 +263,7 @@ class WPDonation {
         switch ( $column ) {
 
             case 'amount' :
-                echo number_format($custom["wpdonation_donor_amount"][0],2);
+                echo @number_format($custom["wpdonation_donor_amount"][0],2);
                 break;
 
             case 'frequency' :
@@ -192,6 +296,7 @@ class WPDonation {
         $amount = $custom["wpdonation_donor_amount"][0];
         $fee = $custom["wpdonation_donor_fee"][0];
         $note = $custom["wpdonation_donor_note"][0];
+        $recurStatus = $custom["wpdonation_donor_recur_status"][0];
         
 		?>
 		<table>
@@ -225,20 +330,32 @@ class WPDonation {
 			</tr>
             <tr>
 				<td>Donation Type</td>
-				<td><input type="text" name="wpdonation_donor_recur" value="<?php echo $recur; ?>" disabled /></td>
+				<td><input type="text" name="wpdonation_donor_recur" value="<?php echo $recur; ?>" readonly /></td>
 			</tr>
             <tr>
 				<td>Amount</td>
-				<td><input type="text" name="wpdonation_donor_amount" value="<?php echo $amount; ?>" disabled /></td>
+				<td><input type="text" name="wpdonation_donor_amount" value="<?php echo $amount; ?>" readonly /></td>
 			</tr>
             <tr>
 				<td>Processing Fee</td>
-				<td><input type="text" name="wpdonation_donor_fee" value="<?php echo $fee; ?>" disabled /></td>
+				<td><input type="text" name="wpdonation_donor_fee" value="<?php echo $fee; ?>" readonly /></td>
 			</tr>
             
             <tr>
 				<td>Additional Info</td>
-				<td><input type="text" name="wpdonation_donor_note" value="<?php echo $note; ?>" disabled /></td>
+				<td>
+					<textarea name="wpdonation_donor_note"><?php echo $note; ?></textarea>
+				</td>
+			</tr>
+
+			<tr>
+				<td>Recur</td>
+				<td>
+					<select name="wpdonation_donor_recur_status">
+						<option value="Active" <?php echo (($recurStatus === 'Active') ? 'selected="selected"' : ""); ?>>Active</option>
+						<option value="Inactive" <?php echo (($recurStatus === 'Inactive') ? 'selected="selected"' : ""); ?>>Inactive</option>
+					</select>
+				</td>
 			</tr>
 		</table>
 		<?php
@@ -259,6 +376,7 @@ class WPDonation {
         update_post_meta($post->ID, "wpdonation_donor_amount", $_POST["wpdonation_donor_amount"]);
         update_post_meta($post->ID, "wpdonation_donor_fee", $_POST["wpdonation_donor_fee"]);
         update_post_meta($post->ID, "wpdonation_donor_note", $_POST["wpdonation_donor_note"]);
+        update_post_meta($post->ID, "wpdonation_donor_recur_status", $_POST["wpdonation_donor_recur_status"]);
 	}
 
 	
@@ -278,6 +396,21 @@ class WPDonation {
             if ($amount === 'other') {
             	$amount = $_POST['wpdonation_otheramount'];
             }
+
+            if ( isset($_POST['donationaddinfo_covercc']) ) {
+            	$am = $amount + $_POST["wpdonation_donor_fee"];
+            } else {
+            	$am = $amount;
+            }
+
+            if ($_POST["wpdonation_donor_recur"] === 'monthly') {
+            	update_post_meta($post, "wpdonation_donor_recur_status", 'Active');
+            	$date = date("Y-m-d");
+            	$nextRecur = date('Y-m-d', strtotime(date("Y-m-d", strtotime($date)) . " +1 month"));
+            	update_post_meta($post, "wpdonation_donor_next_recur", $nextRecur);
+            } else {
+            	update_post_meta($post, "wpdonation_donor_recur_status", 'Inactive');
+            }
             
             update_post_meta($post, "wpdonation_donor_name", $_POST["wpdonation_donor_name"]);
             update_post_meta($post, "wpdonation_donor_email", $_POST["wpdonation_donor_email"]);
@@ -287,7 +420,7 @@ class WPDonation {
             update_post_meta($post, "wpdonation_donor_zipcode", $_POST["wpdonation_donor_zipcode"]);
             update_post_meta($post, "wpdonation_donor_country", $_POST["wpdonation_donor_country"]);
             update_post_meta($post, "wpdonation_donor_recur", $_POST["wpdonation_donor_recur"]);
-            update_post_meta($post, "wpdonation_donor_amount", $amount);
+            update_post_meta($post, "wpdonation_donor_amount", $am);
             update_post_meta($post, "wpdonation_donor_fee", $_POST["wpdonation_donor_fee"]);
             update_post_meta($post, "wpdonation_donor_note", $_POST["wpdonation_donor_note"]);           
 	    	
@@ -356,26 +489,34 @@ class WPDonation {
 
 		try {
 
-			$customer = \Stripe\Customer::create([
-				'email' => $donorDetails['wpdonation_donor_email'],
-				'metadata' => [
-					'name' => $donorDetails['wpdonation_donor_name'],
-					'address' => $donorDetails['wpdonation_donor_address'],
-					'city' => $donorDetails['wpdonation_donor_city'],
-					'zipcode' => $donorDetails['wpdonation_donor_zipcode']
-				],
-				'card' => $card
-			]);
+			$custom = get_post_custom($postID);
+			$customerID = $custom['wpdonation_donor_stripe_customer_id'][0];
+
+			if ( !$customerID ) {
+				$customer = \Stripe\Customer::create([
+					'email' => $donorDetails['wpdonation_donor_email'],
+					'metadata' => [
+						'name' => $donorDetails['wpdonation_donor_name'],
+						'address' => $donorDetails['wpdonation_donor_address'],
+						'city' => $donorDetails['wpdonation_donor_city'],
+						'zipcode' => $donorDetails['wpdonation_donor_zipcode']
+					],
+					'card' => $card
+				]);
+
+				$customerID = $customer->id;
+			}
 
 			$charge = \Stripe\Charge::create([
 				'amount' => $amount, 
 				'currency' => $currency,
 				'description' => $description,
 				'metadata' => $metaData,
-				'customer' => $customer->id
+				'customer' => $customerID
 			]);
 
-			update_post_meta($postID, "wpdonation_donor_stripe_customer_id", $customer->id);    
+			update_post_meta($postID, "wpdonation_donor_stripe_customer_id", $customer->id); 
+			   
 
 		} catch(Exception $e) {
 			return $e->getMessage();
