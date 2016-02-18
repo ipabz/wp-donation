@@ -280,27 +280,37 @@ class WPDonation {
 
 			$coverFee = false;
 
-            $this->charge(
+            $c = $this->charge(
             		$_POST['wpdonation_card_number'],
             		$_POST['wpdonation_exp_month'],
             		$_POST['wpdonation_exp_year'],
             		$amount,
             		$desc,
             		$coverFee,
-            		$metaData
+            		$metaData,
+            		$post,
+            		$_POST
             	);
+
+            if ($c !== TRUE) {			
+				// show error
+				$_SESSION['submitted'] = false;
+				$_SESSION['error'] = $c;
+            	require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-ui.php' );
+			} else {
+				require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-thankyou.php' );            
+            	$_SESSION['submitted'] = true;
+			}            
             
-            require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-thankyou.php' );
-            
-            $_SESSION['submitted'] = true;
         }else{
+        	unset($_SESSION['error']);
             $_SESSION['submitted'] = false;
             require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-ui.php' );
         }
     }
 
 
-    protected function charge($cardNumber, $expMonth, $expYear, $amount, $description, $coverProcessingFee=false, $metaData=[], $currency="usd")
+    protected function charge($cardNumber, $expMonth, $expYear, $amount, $description, $coverProcessingFee=false, $metaData=[], $postID=NULL,$donorDetails=[], $currency="usd")
     {
     	require_once( plugin_dir_path( __FILE__ ) . 'stripe-php/init.php' );
 
@@ -320,13 +330,26 @@ class WPDonation {
 
 		try {
 
+			$customer = \Stripe\Customer::create([
+				'email' => $donorDetails['wpdonation_donor_email'],
+				'metadata' => [
+					'name' => $donorDetails['wpdonation_donor_name'],
+					'address' => $donorDetails['wpdonation_donor_address'],
+					'city' => $donorDetails['wpdonation_donor_city'],
+					'zipcode' => $donorDetails['wpdonation_donor_zipcode']
+				],
+				'card' => $card
+			]);
+
 			$charge = \Stripe\Charge::create([
-				'card' => $card, 
 				'amount' => $amount, 
 				'currency' => $currency,
 				'description' => $description,
-				'metadata' => $metaData
+				'metadata' => $metaData,
+				'customer' => $customer->id
 			]);
+
+			update_post_meta($postID, "wpdonation_donor_stripe_customer_id", $customer->id);    
 
 		} catch(Exception $e) {
 			return $e->getMessage();
