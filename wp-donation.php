@@ -212,7 +212,7 @@ class WPDonation {
             
             $post = wp_insert_post($post);
 
-            $amount = $_POST['wpdonation_amount'];
+            $amount = $_POST["wpdonation_donor_amount"];
 
             if ($amount === 'other') {
             	$amount = $_POST['wpdonation_otheramount'];
@@ -236,15 +236,19 @@ class WPDonation {
             $metaData = [
 				'Organization' => get_option('wpdonation_organization_name'),
 				'Donor Name' => $_POST["wpdonation_donor_name"],
-				'Address' => $this->request->input('address') . ', ' . $this->request->input('city') . ', ' . $this->request->input('state') . ' ' . $this->request->input('zipcode') . ', ' . $this->request->input('country')
+				'Address' => $_POST["wpdonation_donor_address"] . ', ' . $_POST["wpdonation_donor_city"]. ' ' . $_POST["wpdonation_donor_zipcode"] 
 			];
+
+			$coverFee = false;
 
             $this->charge(
             		$_POST['wpdonation_card_number'],
             		$_POST['wpdonation_exp_month'],
             		$_POST['wpdonation_exp_year'],
             		$amount,
-            		$desc
+            		$desc,
+            		$coverFee,
+            		$metaData
             	);
             
             require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-thankyou.php' );
