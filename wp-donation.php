@@ -25,7 +25,10 @@ class WPDonation {
 	
 	private $settings = array(
 		'wpdonation_stripe_secret_key' => 'put your stripe secret key here',
-		'wpdonation_stripe_public_key' => 'put your stripe public key here'
+		'wpdonation_stripe_public_key' => 'put your stripe public key here',
+		'wpdonation_organization_name' => '',
+		'wpdonation_thankyou_heading' => '',
+		'wpdonation_thankyou_message' => ''
 	);
 	
 	public function __construct() 
