@@ -25,7 +25,10 @@ class WPDonation {
 	
 	private $settings = array(
 		'wpdonation_stripe_secret_key' => 'put your stripe secret key here',
-		'wpdonation_stripe_public_key' => 'put your stripe public key here'
+		'wpdonation_stripe_public_key' => 'put your stripe public key here',
+		'wpdonation_organization_name' => '',
+		'wpdonation_thankyou_heading' => '',
+		'wpdonation_thankyou_message' => ''
 	);
 	
 	public function __construct() 
@@ -208,6 +211,12 @@ class WPDonation {
             );
             
             $post = wp_insert_post($post);
+
+            $amount = $_POST["wpdonation_donor_amount"];
+
+            if ($amount === 'other') {
+            	$amount = $_POST['wpdonation_otheramount'];
+            }
             
             update_post_meta($post, "wpdonation_donor_name", $_POST["wpdonation_donor_name"]);
             update_post_meta($post, "wpdonation_donor_email", $_POST["wpdonation_donor_email"]);
@@ -217,9 +226,30 @@ class WPDonation {
             update_post_meta($post, "wpdonation_donor_zipcode", $_POST["wpdonation_donor_zipcode"]);
             update_post_meta($post, "wpdonation_donor_country", $_POST["wpdonation_donor_country"]);
             update_post_meta($post, "wpdonation_donor_recur", $_POST["wpdonation_donor_recur"]);
-            update_post_meta($post, "wpdonation_donor_amount", $_POST["wpdonation_donor_amount"]);
+            update_post_meta($post, "wpdonation_donor_amount", $amount);
             update_post_meta($post, "wpdonation_donor_fee", $_POST["wpdonation_donor_fee"]);
-            update_post_meta($post, "wpdonation_donor_note", $_POST["wpdonation_donor_note"]);
+            update_post_meta($post, "wpdonation_donor_note", $_POST["wpdonation_donor_note"]);           
+	    	
+
+            $desc = "Donatin from " . $_POST["wpdonation_donor_name"];
+
+            $metaData = [
+				'Organization' => get_option('wpdonation_organization_name'),
+				'Donor Name' => $_POST["wpdonation_donor_name"],
+				'Address' => $_POST["wpdonation_donor_address"] . ', ' . $_POST["wpdonation_donor_city"]. ' ' . $_POST["wpdonation_donor_zipcode"] 
+			];
+
+			$coverFee = false;
+
+            $this->charge(
+            		$_POST['wpdonation_card_number'],
+            		$_POST['wpdonation_exp_month'],
+            		$_POST['wpdonation_exp_year'],
+            		$amount,
+            		$desc,
+            		$coverFee,
+            		$metaData
+            	);
             
             require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-thankyou.php' );
             
@@ -228,6 +258,43 @@ class WPDonation {
             $_SESSION['submitted'] = false;
             require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-ui.php' );
         }
+    }
+
+
+    protected function charge($cardNumber, $expMonth, $expYear, $amount, $description, $coverProcessingFee=false, $metaData=[], $currency="usd")
+    {
+    	require_once( plugin_dir_path( __FILE__ ) . 'stripe-php/init.php' );
+
+    	$amount = $amount * 100;
+
+		if ( $coverProcessingFee ) {
+			$amount = $amount + (($amount * 0.03) + 0.3);
+		}
+
+		\Stripe\Stripe::setApiKey(get_option('wpdonation_stripe_secret_key'));
+
+		$card = [
+			'number' => $cardNumber, 
+			'exp_month' => $expMonth, 
+			'exp_year' => $expYear
+		];
+
+		try {
+
+			$charge = \Stripe\Charge::create([
+				'card' => $card, 
+				'amount' => $amount, 
+				'currency' => $currency,
+				'description' => $description,
+				'metadata' => $metaData
+			]);
+
+		} catch(Exception $e) {
+			return $e->getMessage();
+		}
+
+
+		return $charge->paid;
     }
     
     
