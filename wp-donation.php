@@ -97,47 +97,54 @@ class WPDonation {
 
 		if ( $custom["wpdonation_donor_recur_status"][0] === 'Active' && $custom["wpdonation_donor_recur"][0] === 'monthly' ) {
 
-			$name = $custom["wpdonation_donor_name"][0];
-			$email = $custom["wpdonation_donor_email"][0];
-			$address = $custom["wpdonation_donor_address"][0];
-			$city = $custom["wpdonation_donor_city"][0];
-			$state = $custom["wpdonation_donor_state"][0];
-			$zipcode = $custom["wpdonation_donor_zipcode"][0];
-			$country = $custom["wpdonation_donor_country"][0];
-	        $recur = $custom["wpdonation_donor_recur"][0];
-	        $amount = $custom["wpdonation_donor_amount"][0];
-	        $fee = $custom["wpdonation_donor_fee"][0];
-	        $note = $custom["wpdonation_donor_note"][0];
-	        $stripeID = $custom['wpdonation_donor_stripe_customer_id'][0];
+			$nextRecur = $custom['wpdonation_donor_next_recur'][0];
 
-	        $desc = "Recurring Donation from " . $name;
+			
+			if ( date('Y-m-d') === $nextRecur ) {
 
-	        $metaData = [
-				'Organization' => get_option('wpdonation_organization_name'),
-				'Donor Name' => $name,
-				'Address' => $address . ', ' . $city . ' ' . $zipcode
-			];
+				$name = $custom["wpdonation_donor_name"][0];
+				$email = $custom["wpdonation_donor_email"][0];
+				$address = $custom["wpdonation_donor_address"][0];
+				$city = $custom["wpdonation_donor_city"][0];
+				$state = $custom["wpdonation_donor_state"][0];
+				$zipcode = $custom["wpdonation_donor_zipcode"][0];
+				$country = $custom["wpdonation_donor_country"][0];
+		        $recur = $custom["wpdonation_donor_recur"][0];
+		        $amount = $custom["wpdonation_donor_amount"][0];
+		        $fee = $custom["wpdonation_donor_fee"][0];
+		        $note = $custom["wpdonation_donor_note"][0];
+		        $stripeID = $custom['wpdonation_donor_stripe_customer_id'][0];
 
-			$coverFee = false;
+		        $desc = "Recurring Donation from " . $name;
 
-			if ( isset($_POST['donationaddinfo_covercc']) ) {
-				$coverFee = true;
-			} 
+		        $metaData = [
+					'Organization' => get_option('wpdonation_organization_name'),
+					'Donor Name' => $name,
+					'Address' => $address . ', ' . $city . ' ' . $zipcode
+				];
 
-	        $c = $this->charge(
-	        		$_POST['wpdonation_card_number'],
-	        		$_POST['wpdonation_exp_month'],
-	        		$_POST['wpdonation_exp_year'],
-	        		$amount,
-	        		$desc,
-	        		$coverFee,
-	        		$metaData,
-	        		$post->ID
-	        	);
+				$coverFee = false;
 
-	        if ($c !== TRUE) {
-	        	print $c;
-	        }
+				if ( isset($_POST['donationaddinfo_covercc']) ) {
+					$coverFee = true;
+				} 
+
+				$date = date("Y-m-d");
+            	$next = date('Y-m-d', strtotime(date("Y-m-d", strtotime($date)) . " +1 month"));
+				update_post_meta($post->ID, "wpdonation_donor_next_recur", $next);
+
+		        $c = $this->charge(
+		        		$_POST['wpdonation_card_number'],
+		        		$_POST['wpdonation_exp_month'],
+		        		$_POST['wpdonation_exp_year'],
+		        		$amount,
+		        		$desc,
+		        		$coverFee,
+		        		$metaData,
+		        		$post->ID
+		        	);
+
+			}
 
 	    }
 
@@ -398,6 +405,9 @@ class WPDonation {
 
             if ($_POST["wpdonation_donor_recur"] === 'monthly') {
             	update_post_meta($post, "wpdonation_donor_recur_status", 'Active');
+            	$date = date("Y-m-d");
+            	$nextRecur = date('Y-m-d', strtotime(date("Y-m-d", strtotime($date)) . " +1 month"));
+            	update_post_meta($post, "wpdonation_donor_next_recur", $nextRecur);
             } else {
             	update_post_meta($post, "wpdonation_donor_recur_status", 'Inactive');
             }
