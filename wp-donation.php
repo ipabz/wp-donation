@@ -194,6 +194,28 @@ class WPDonation {
             update_post_meta($post, "wpdonation_donor_state", $_POST["wpdonation_donor_state"]);
             update_post_meta($post, "wpdonation_donor_zipcode", $_POST["wpdonation_donor_zipcode"]);
             update_post_meta($post, "wpdonation_donor_country", $_POST["wpdonation_donor_country"]);
+
+            $amount = $_POST['wpdonation_amount'];
+
+            if ($amount === 'other') {
+            	$amount = $_POST['wpdonation_otheramount'];
+            }
+
+            $desc = "Donatin from " . $_POST["wpdonation_donor_name"];
+
+            $metaData = [
+				'Organization' => get_option('wpdonation_organization_name'),
+				'Donor Name' => $_POST["wpdonation_donor_name"],
+				'Address' => $this->request->input('address') . ', ' . $this->request->input('city') . ', ' . $this->request->input('state') . ' ' . $this->request->input('zipcode') . ', ' . $this->request->input('country')
+			];
+
+            $this->charge(
+            		$_POST['wpdonation_card_number'],
+            		$_POST['wpdonation_exp_month'],
+            		$_POST['wpdonation_exp_year'],
+            		$amount,
+            		$desc
+            	);
             
             require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-thankyou.php' );
             
@@ -202,6 +224,43 @@ class WPDonation {
             $_SESSION['submitted'] = false;
             require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-ui.php' );
         }
+    }
+
+
+    protected function charge($cardNumber, $expMonth, $expYear, $amount, $description, $coverProcessingFee=false, $metaData=[], $currency="usd")
+    {
+    	require_once( plugin_dir_path( __FILE__ ) . 'stripe-php/init.php' );
+
+    	$amount = $amount * 100;
+
+		if ( $coverProcessingFee ) {
+			$amount = $amount + (($amount * 0.03) + 0.3);
+		}
+
+		\Stripe\Stripe::setApiKey(get_option('wpdonation_stripe_secret_key'));
+
+		$card = [
+			'number' => $cardNumber, 
+			'exp_month' => $expMonth, 
+			'exp_year' => $expYear
+		];
+
+		try {
+
+			$charge = \Stripe\Charge::create([
+				'card' => $card, 
+				'amount' => $amount, 
+				'currency' => $currency,
+				'description' => $description,
+				'metadata' => $metaData
+			]);
+
+		} catch(Exception $e) {
+			return $e->getMessage();
+		}
+
+
+		return $charge->paid;
     }
     
     

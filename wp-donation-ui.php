@@ -25,25 +25,25 @@
                     <div class="row donationpad">
                         <div class="col-xs-3">
                             <label for="donationamount_1">
-                                <input class="radiobtn" type="radio" name="amount" value="20" id="donationamount_1" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="20" id="donationamount_1" autocomplete="off" />
                                 <span>$20</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
                             <label for="donationamount_2">
-                                <input class="radiobtn" type="radio" name="amount" value="50" id="donationamount_2" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="50" id="donationamount_2" autocomplete="off" />
                                 <span>$50</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
                             <label for="donationamount_3">
-                                <input class="radiobtn" type="radio" name="amount" value="100" id="donationamount_3" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="100" id="donationamount_3" autocomplete="off" />
                                 <span>$100</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
                             <label for="donationamount_4">
-                                <input class="radiobtn" type="radio" name="amount" value="500" id="donationamount_4" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="500" id="donationamount_4" autocomplete="off" />
                                 <span>$500</span>
                             </label>
                         </div>
@@ -51,25 +51,25 @@
 
                         <div class="col-xs-3">
                             <label for="donationamount_5">
-                                <input class="radiobtn" type="radio" name="amount" value="1000" id="donationamount_5" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="1000" id="donationamount_5" autocomplete="off" />
                                 <span>$1k</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
                             <label for="donationamount_6">
-                                <input class="radiobtn" type="radio" name="amount" value="5000" id="donationamount_6" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="5000" id="donationamount_6" autocomplete="off" />
                                 <span>$5k</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
                             <label for="donationamount_7">
-                                <input class="radiobtn" type="radio" name="amount" value="10000" id="donationamount_7" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="10000" id="donationamount_7" autocomplete="off" />
                                 <span>$10k</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
                             <label for="donationamount_other">
-                                <input class="radiobtn" type="radio" name="amount" value="other" id="donationamount_other" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="other" id="donationamount_other" autocomplete="off" />
                                 <span>Other</span>
                             </label>
                         </div>
@@ -78,7 +78,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon" for="coverccfee">$</div>
-                                    <input type="text" class="form-control numeric" name="otheramount" id="otheramount" placeholder="" />
+                                    <input type="text" class="form-control numeric" name="wpdonation_otheramount" id="otheramount" placeholder="" />
                                 </div>
                             </div>
                         </div>
@@ -184,7 +184,7 @@
                     <div class="form-group">
 						<label for="donor_cardnum" class="col-sm-4 control-label">Card Number</label>
 						<div class="col-sm-8">
-							<input type="text" data-stripe="number" name="card_number" required="" class="form-control numeric" id="donor_cardnum" placeholder="Card Number">
+							<input type="text" data-stripe="number" name="wpdonation_card_number" required="" class="form-control numeric" id="donor_cardnum" placeholder="Card Number">
 						</div>
 					</div>
 
@@ -198,9 +198,9 @@
 					<div class="form-group form-inline">
 						<label for="donor_cvc" class="col-sm-4 control-label">Expiration (MM/YYYY)</label>
 						<div class="col-sm-8">
-							<input type="text" size="2" class="form-control numeric" data-stripe="exp-month" name="exp_month" id="exp_month" maxlength="2" required="" />
+							<input type="text" size="2" class="form-control numeric" data-stripe="exp-month" name="wpdonation_exp_month" id="exp_month" maxlength="2" required="" />
 							/
-							<input type="text" size="4" class="form-control numeric" data-stripe="exp-year" name="exp_year" id="exp_year" maxlength="4" required="" />
+							<input type="text" size="4" class="form-control numeric" data-stripe="exp-year" name="wpdonation_exp_year" id="exp_year" maxlength="4" required="" />
 						</div>
 					</div>
 
