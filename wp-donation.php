@@ -24,13 +24,13 @@ class WPDonation {
 	}
 	
 	private $settings = array(
-		'wpdonation_stripe_secret_key' => 'put your stripe secret key here',
-		'wpdonation_stripe_public_key' => 'put your stripe public key here',
-		'wpdonation_organization_name' => '',
+        'wpdonation_stripe_secret_key' => 'put your stripe secret key here',
+        'wpdonation_stripe_public_key' => 'put your stripe public key here',
+        'wpdonation_organization_name' => '',
         'wpdonation_box_color_1' => '#0da7d4',
         'wpdonation_box_color_2' => '#014c6c',
-		'wpdonation_thankyou_heading' => '',
-		'wpdonation_thankyou_message' => ''
+        'wpdonation_thankyou_heading' => '',
+        'wpdonation_thankyou_message' => ''
 	);
 	
 	public function __construct() 
