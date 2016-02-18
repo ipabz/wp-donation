@@ -3,6 +3,12 @@
     <section id="donatenow">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
+
+                <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger" role="alert"><?php echo $_SESSION['error']; ?></div>
+                <?php endif; ?>
+
+
                 <div class="row donationfund">
                 </div>
                 <div class="donationfields clearfix">
