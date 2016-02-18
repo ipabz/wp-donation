@@ -25,7 +25,7 @@
         <p class="form-description">Configure the look of the form in the website.</p>
         <br />
         
-        <table class="form-table">
+        <table class="form-table" style="width: 600px;">
             <tbody>
                 <tr>
                     <th scope="row"><label for="box_color">Box Color 1</label></th>
@@ -39,6 +39,19 @@
                         <input type="color" name="wpdonation_box_color_2" class="basic" value="<?php echo get_option('wpdonation_box_color_2'); ?>" />
                     </td>
                 </tr>
+                
+                <?php for($i=1;$i<=7;$i++): ?>
+                    <tr>
+                        <th scope="row"><label for="wpdonation_amount_<?php echo $i; ?>">Amount <?php echo $i; ?></label></th>
+                        <td>
+                            <input type="text" name="wpdonation_amount_<?php echo $i; ?>" value="<?php echo get_option('wpdonation_amount_'.$i); ?>" />
+                        </td>
+                        <th scope="row" style="text-align: right"><label for="wpdonation_amount_label_<?php echo $i; ?>">Label</label></th>
+                        <td>
+                            <input type="text" name="wpdonation_amount_label_<?php echo $i; ?>" value="<?php echo get_option('wpdonation_amount_label_'.$i); ?>" />
+                        </td>
+                    </tr>
+                <?php endfor; ?>
             </tbody>
         </table>
 

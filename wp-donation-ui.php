@@ -6,6 +6,9 @@
     .input-group-addon { background: <?php echo get_option('wpdonation_box_color_1'); ?> !important; }
     #otheramount { background: <?php echo get_option('wpdonation_box_color_2'); ?> !important; }
 </style>
+<header class="entry-header text-center">
+    <h2 class="entry-title">Donate to <?php echo get_option('wpdonation_organization_name'); ?></h2>	
+</header>
 <form action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ) ?>" method="POST" id="payment-form" name="payment-form" onSubmit="return validate_cc_exp();">
     <input type="hidden" name="organization_id" value="1" />
     <section id="donatenow">
@@ -37,50 +40,15 @@
                     </div>
 
                     <div class="row donationpad">
+                        <?php for($i=1;$i<=7;$i++): ?>
                         <div class="col-xs-3">
                             <label for="donationamount_1">
-                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="20" id="donationamount_1" autocomplete="off" />
-                                <span>$20</span>
+                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="<?php echo get_option('wpdonation_amount_'.$i); ?>" id="donationamount_<?php echo $i ?>" autocomplete="off" />
+                                <span><?php echo get_option('wpdonation_amount_label_'.$i); ?></span>
                             </label>
                         </div>
-                        <div class="col-xs-3">
-                            <label for="donationamount_2">
-                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="50" id="donationamount_2" autocomplete="off" />
-                                <span>$50</span>
-                            </label>
-                        </div>
-                        <div class="col-xs-3">
-                            <label for="donationamount_3">
-                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="100" id="donationamount_3" autocomplete="off" />
-                                <span>$100</span>
-                            </label>
-                        </div>
-                        <div class="col-xs-3">
-                            <label for="donationamount_4">
-                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="500" id="donationamount_4" autocomplete="off" />
-                                <span>$500</span>
-                            </label>
-                        </div>
-
-
-                        <div class="col-xs-3">
-                            <label for="donationamount_5">
-                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="1000" id="donationamount_5" autocomplete="off" />
-                                <span>$1k</span>
-                            </label>
-                        </div>
-                        <div class="col-xs-3">
-                            <label for="donationamount_6">
-                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="5000" id="donationamount_6" autocomplete="off" />
-                                <span>$5k</span>
-                            </label>
-                        </div>
-                        <div class="col-xs-3">
-                            <label for="donationamount_7">
-                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="10000" id="donationamount_7" autocomplete="off" />
-                                <span>$10k</span>
-                            </label>
-                        </div>
+                        <?php endfor; ?>
+                        
                         <div class="col-xs-3">
                             <label for="donationamount_other">
                                 <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="other" id="donationamount_other" autocomplete="off" />
