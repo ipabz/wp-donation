@@ -10,13 +10,13 @@
                     <div class="row donationopt">
                         <div class="col-xs-6">
                             <label for="donationopt_onetime" class="selected">
-                                <input class="radiobtn" checked="" type="radio" name="recurring_period" value="onetime" id="donationopt_onetime" autocomplete="off" />
+                                <input class="radiobtn" checked="" type="radio" name="wpdonation_donor_recur" value="onetime" id="donationopt_onetime" autocomplete="off" />
                                 <span>One Time</span>
                             </label>
                         </div>
                         <div class="col-xs-6">
                             <label for="donationopt_monthly">
-                                <input class="radiobtn" type="radio" name="recurring_period" value="monthly" id="donationopt_monthly" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_donor_recur" value="monthly" id="donationopt_monthly" autocomplete="off" />
                                 <span>Monthly</span>
                             </label>
                         </div>
@@ -25,25 +25,25 @@
                     <div class="row donationpad">
                         <div class="col-xs-3">
                             <label for="donationamount_1">
-                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="20" id="donationamount_1" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="20" id="donationamount_1" autocomplete="off" />
                                 <span>$20</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
                             <label for="donationamount_2">
-                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="50" id="donationamount_2" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="50" id="donationamount_2" autocomplete="off" />
                                 <span>$50</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
                             <label for="donationamount_3">
-                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="100" id="donationamount_3" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="100" id="donationamount_3" autocomplete="off" />
                                 <span>$100</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
                             <label for="donationamount_4">
-                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="500" id="donationamount_4" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="500" id="donationamount_4" autocomplete="off" />
                                 <span>$500</span>
                             </label>
                         </div>
@@ -51,25 +51,25 @@
 
                         <div class="col-xs-3">
                             <label for="donationamount_5">
-                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="1000" id="donationamount_5" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="1000" id="donationamount_5" autocomplete="off" />
                                 <span>$1k</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
                             <label for="donationamount_6">
-                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="5000" id="donationamount_6" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="5000" id="donationamount_6" autocomplete="off" />
                                 <span>$5k</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
                             <label for="donationamount_7">
-                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="10000" id="donationamount_7" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="10000" id="donationamount_7" autocomplete="off" />
                                 <span>$10k</span>
                             </label>
                         </div>
                         <div class="col-xs-3">
                             <label for="donationamount_other">
-                                <input class="radiobtn" type="radio" name="wpdonation_amount" value="other" id="donationamount_other" autocomplete="off" />
+                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="other" id="donationamount_other" autocomplete="off" />
                                 <span>Other</span>
                             </label>
                         </div>
@@ -94,7 +94,7 @@
                                 </label>
                             </div>
                             <div id="addinfotext" class="form-group hidden">
-                                <textarea class="form-control" name="note" rows="4"></textarea>
+                                <textarea class="form-control" name="wpdonation_donor_note" rows="4"></textarea>
                             </div>
                             <div class="checkbox">
                                 <label>
@@ -106,7 +106,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon" for="coverccfee">Fee Amount</div>
-                                        <input type="text" class="form-control" id="coverccfee" placeholder="Amount" value="0.00" disabled />
+                                        <input type="text" class="form-control" name="wpdonation_donor_fee" id="coverccfee" placeholder="Amount" value="0.00" readonly />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -236,14 +236,14 @@ jQuery(function() {
 	});
 
 	jQuery('.btn-donate').on('click', function(e) {
-		if(jQuery('input:radio[name=amount]:checked').length > 0) {
+		if(jQuery('input:radio[name=wpdonation_donor_amount]:checked').length > 0) {
 			jQuery(this).attr('data-target', '#donor');
 		}
 		else {
 			jQuery(this).attr('data-target','');
 		}
 
-		var val = jQuery('input:radio[name=amount]:checked').val();
+		var val = jQuery('input:radio[name=wpdonation_donor_amount]:checked').val();
 
 		if (val === 'other') {
 
@@ -316,7 +316,7 @@ jQuery(function() {
 
 	jQuery('#covercc').on('click', function() {
 
-		var val = jQuery('input:radio[name=amount]:checked').val();
+		var val = jQuery('input:radio[name=wpdonation_donor_amount]:checked').val();
 
 		if (val === 'other') {
 			val = jQuery('#otheramount').val();
@@ -345,7 +345,7 @@ jQuery(function() {
 
 	function calculate()
 	{
-		var val = jQuery('input:radio[name=amount]:checked').val();
+		var val = jQuery('input:radio[name=wpdonation_donor_amount]:checked').val();
 
 		if (val === 'other') {
 			val = jQuery('#otheramount').val();
