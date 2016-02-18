@@ -124,7 +124,11 @@ class WPDonation {
 		$state = $custom["wpdonation_donor_state"][0];
 		$zipcode = $custom["wpdonation_donor_zipcode"][0];
 		$country = $custom["wpdonation_donor_country"][0];
-
+        $recur = $custom["wpdonation_donor_recur"][0];
+        $amount = $custom["wpdonation_donor_amount"][0];
+        $fee = $custom["wpdonation_donor_fee"][0];
+        $note = $custom["wpdonation_donor_note"][0];
+        
 		?>
 		<table>
 			<tr>
@@ -155,6 +159,23 @@ class WPDonation {
 				<td>Country</td>
 				<td><input type="text" name="wpdonation_donor_country" value="<?php echo $country; ?>" /></td>
 			</tr>
+            <tr>
+				<td>Donation Type</td>
+				<td><input type="text" name="wpdonation_donor_recur" value="<?php echo $recur; ?>" disabled /></td>
+			</tr>
+            <tr>
+				<td>Amount</td>
+				<td><input type="text" name="wpdonation_donor_amount" value="<?php echo $amount; ?>" disabled /></td>
+			</tr>
+            <tr>
+				<td>Processing Fee</td>
+				<td><input type="text" name="wpdonation_donor_fee" value="<?php echo $fee; ?>" disabled /></td>
+			</tr>
+            
+            <tr>
+				<td>Additional Info</td>
+				<td><input type="text" name="wpdonation_donor_note" value="<?php echo $note; ?>" disabled /></td>
+			</tr>
 		</table>
 		<?php
 	}
@@ -170,6 +191,10 @@ class WPDonation {
   		update_post_meta($post->ID, "wpdonation_donor_state", $_POST["wpdonation_donor_state"]);
   		update_post_meta($post->ID, "wpdonation_donor_zipcode", $_POST["wpdonation_donor_zipcode"]);
   		update_post_meta($post->ID, "wpdonation_donor_country", $_POST["wpdonation_donor_country"]);
+        update_post_meta($post->ID, "wpdonation_donor_recur", $_POST["wpdonation_donor_recur"]);
+        update_post_meta($post->ID, "wpdonation_donor_amount", $_POST["wpdonation_donor_amount"]);
+        update_post_meta($post->ID, "wpdonation_donor_fee", $_POST["wpdonation_donor_fee"]);
+        update_post_meta($post->ID, "wpdonation_donor_note", $_POST["wpdonation_donor_note"]);
 	}
 
 	
@@ -191,6 +216,10 @@ class WPDonation {
             update_post_meta($post, "wpdonation_donor_state", $_POST["wpdonation_donor_state"]);
             update_post_meta($post, "wpdonation_donor_zipcode", $_POST["wpdonation_donor_zipcode"]);
             update_post_meta($post, "wpdonation_donor_country", $_POST["wpdonation_donor_country"]);
+            update_post_meta($post, "wpdonation_donor_recur", $_POST["wpdonation_donor_recur"]);
+            update_post_meta($post, "wpdonation_donor_amount", $_POST["wpdonation_donor_amount"]);
+            update_post_meta($post, "wpdonation_donor_fee", $_POST["wpdonation_donor_fee"]);
+            update_post_meta($post, "wpdonation_donor_note", $_POST["wpdonation_donor_note"]);
             
             require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-thankyou.php' );
             
