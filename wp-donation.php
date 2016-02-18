@@ -278,7 +278,7 @@ class WPDonation {
 
 			$coverFee = false;
 
-            $this->charge(
+            $c = $this->charge(
             		$_POST['wpdonation_card_number'],
             		$_POST['wpdonation_exp_month'],
             		$_POST['wpdonation_exp_year'],
@@ -287,11 +287,19 @@ class WPDonation {
             		$coverFee,
             		$metaData
             	);
+
+            if ($c !== TRUE) {			
+				// show error
+				$_SESSION['submitted'] = false;
+				$_SESSION['error'] = $c;
+            	require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-ui.php' );
+			} else {
+				require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-thankyou.php' );            
+            	$_SESSION['submitted'] = true;
+			}            
             
-            require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-thankyou.php' );
-            
-            $_SESSION['submitted'] = true;
         }else{
+        	unset($_SESSION['error']);
             $_SESSION['submitted'] = false;
             require_once( plugin_dir_path( __FILE__ ) . 'wp-donation-ui.php' );
         }
