@@ -1,5 +1,3 @@
-<h2>Thank You For Your Donation!</h2>
+<h2><?php echo get_option('wpdonation_thankyou_heading'); ?></h2>
 
-<p>We are proud of the services we provide in and for Tulsa, America’s Most Generous City®, and the many other communities supported by the recommendations of our donors.</p>
-
-<p>Please contact us if we can help you in any way.</p>
+<p><?php echo get_option('wpdonation_thankyou_message'); ?></p>

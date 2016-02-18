@@ -45,6 +45,9 @@ class WPDonation {
         
         add_shortcode('wp-donation', array($this,'wpdonation_ui'));
 		$this->create_post_types();
+        
+        add_filter( 'manage_wpdonation_donors_posts_columns', array($this,'set_custom_edit_donor_columns') );
+        add_action( 'manage_wpdonation_donors_posts_custom_column' , array($this,'custom_donor_column'), 10 ,2 );
 	}
 	
 	
@@ -114,7 +117,41 @@ class WPDonation {
 		add_action('save_post', array($this, 'wpdonation_donor_save_details')); 
 	}
 
+    public function set_custom_edit_donor_columns($columns) {
+        $columns = array(
+            'title' => __( 'Donor Name' ),
+            'frequency' => __( 'Frequency' ),
+            'amount' => __( 'Amount' ),
+            'address' => __( 'Address' ),
+            'email' => __( 'Email' ),
+            'date' => __( 'Donation Date' )
+        );
+        return $columns;
+    }
 
+    public function custom_donor_column( $column, $post_id ) {
+        $custom = get_post_custom($post->ID);
+        
+        switch ( $column ) {
+
+            case 'amount' :
+                echo number_format($custom["wpdonation_donor_amount"][0],2);
+                break;
+
+            case 'frequency' :
+                echo $custom["wpdonation_donor_recur"][0];
+                break;
+            
+            case 'address' :
+                echo $custom["wpdonation_donor_address"][0].', '.$custom["wpdonation_donor_city"][0];
+                break;
+                
+            case 'email' :
+                echo $custom["wpdonation_donor_email"][0];
+                break;
+        }
+    }
+    
 	public function wpdonation_donor_custom_fields()
 	{
 		global $post;
@@ -231,7 +268,7 @@ class WPDonation {
             update_post_meta($post, "wpdonation_donor_note", $_POST["wpdonation_donor_note"]);           
 	    	
 
-            $desc = "Donatin from " . $_POST["wpdonation_donor_name"];
+            $desc = "Donation from " . $_POST["wpdonation_donor_name"];
 
             $metaData = [
 				'Organization' => get_option('wpdonation_organization_name'),
