@@ -1,3 +1,11 @@
+<style>
+    .donationpad label { background: <?php echo get_option('wpdonation_box_color_1'); ?> !important; }
+    .donationpad label.selected{ background: <?php echo get_option('wpdonation_box_color_2'); ?> !important; }
+    .btn.btn-primary{ background: <?php echo get_option('wpdonation_box_color_2'); ?> !important; }
+    .btn.btn-primary:hover{ background: <?php echo get_option('wpdonation_box_color_1'); ?> !important; }
+    .input-group-addon { background: <?php echo get_option('wpdonation_box_color_1'); ?> !important; }
+    #otheramount { background: <?php echo get_option('wpdonation_box_color_2'); ?> !important; }
+</style>
 <form action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ) ?>" method="POST" id="payment-form" name="payment-form" onSubmit="return validate_cc_exp();">
     <input type="hidden" name="organization_id" value="1" />
     <section id="donatenow">
