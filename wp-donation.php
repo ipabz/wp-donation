@@ -27,6 +27,8 @@ class WPDonation {
 		'wpdonation_stripe_secret_key' => 'put your stripe secret key here',
 		'wpdonation_stripe_public_key' => 'put your stripe public key here',
 		'wpdonation_organization_name' => '',
+        'wpdonation_box_color_1' => '#0da7d4',
+        'wpdonation_box_color_2' => '#014c6c',
 		'wpdonation_thankyou_heading' => '',
 		'wpdonation_thankyou_message' => ''
 	);
@@ -92,7 +94,7 @@ class WPDonation {
         
         wp_register_script( 'bootstrap', plugins_url('js/bootstrap.min.js', __FILE__), array( 'jquery' ) );
         wp_register_script( 'script', plugins_url('js/script.js', __FILE__),array( 'jquery' ) );
-        wp_register_script( 'jquery-numeric', plugins_url('js/jquery.numeric.min.js', __FILE__),array( 'jquery' ) );
+        wp_register_script( 'jquery-numeric', plugins_url('js/jquery.numeric.min.js', __FILE__),array( 'jquery' ) );        
         
         wp_enqueue_style( 'roboto' );
         wp_enqueue_style( 'bootstrap' );
