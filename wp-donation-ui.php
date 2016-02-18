@@ -112,7 +112,7 @@
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="donationaddinfo_covercc" id="covercc" /> I will cover the credit card processing fee
+                                    <input type="checkbox" name="donationaddinfo_covercc" id="covercc" value="1" /> I will cover the credit card processing fee
                                 </label>
                             </div>
                             <div id="covercctext" class="hidden">
@@ -367,7 +367,7 @@ jQuery(function() {
 
 		if (val !== '' && typeof val !== 'undefined') {
 
-			var feeAmount = (Number(val) * 0.03) + 0.3;
+			var feeAmount = (Number(val) * 0.029) + 0.3;
 			var totalAmount = Number(val) + feeAmount;
 
 			jQuery('#coverccfee').val(feeAmount.toFixed(2));

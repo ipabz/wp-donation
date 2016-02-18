@@ -280,6 +280,10 @@ class WPDonation {
 
 			$coverFee = false;
 
+			if ( isset($_POST['donationaddinfo_covercc']) ) {
+				$coverFee = true;
+			}
+
             $c = $this->charge(
             		$_POST['wpdonation_card_number'],
             		$_POST['wpdonation_exp_month'],
@@ -312,12 +316,12 @@ class WPDonation {
 
     protected function charge($cardNumber, $expMonth, $expYear, $amount, $description, $coverProcessingFee=false, $metaData=[], $postID=NULL,$donorDetails=[], $currency="usd")
     {
-    	require_once( plugin_dir_path( __FILE__ ) . 'stripe-php/init.php' );
-
-    	$amount = $amount * 100;
+    	require_once( plugin_dir_path( __FILE__ ) . 'stripe-php/init.php' );    	
 
 		if ( $coverProcessingFee ) {
-			$amount = $amount + (($amount * 0.03) + 0.3);
+			$amount = round( ($amount + (($amount * 0.029) + 0.3)) * 100 );
+		} else {
+			$amount = round($amount * 100);
 		}
 
 		\Stripe\Stripe::setApiKey(get_option('wpdonation_stripe_secret_key'));
