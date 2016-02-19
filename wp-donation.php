@@ -167,7 +167,7 @@ class WPDonation {
 		add_action('admin_menu', array($this, 'wpdonation_settings_page'));
 		add_action('admin_init', array($this, 'wpdonation_register_settings'));
 		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_frontend_scripts_styles'));
-		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_backend_scripts_styles'));
+		add_action('admin_enqueue_scripts', array($this, 'wpdonation_init_backend_scripts_styles'));
         
         add_shortcode('wp-donation', array($this,'wpdonation_ui'));
 		$this->create_post_types();
