@@ -65,7 +65,7 @@ class WPDonation {
 
 	public static function wpdonation_activate()
 	{
-		wp_schedule_event( time(), 'everyminute', 'wpdonation_cron_job' );
+		wp_schedule_event( time(), 'daily', 'wpdonation_cron_job' );
 	}
 
 	public static function wpdonation_deactivate()
