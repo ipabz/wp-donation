@@ -6,4 +6,4 @@
 
     define('DISABLE_WP_CRON', true);
     
-3) Create a cron job and point it to http://<yourwordpressbaseurl>/wp-cron.php and set it to run daily.
+3) Create a cron job and point it to http://yourwordpressbaseurl.com/wp-cron.php and set it to run daily.
