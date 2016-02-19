@@ -1,0 +1,234 @@
+/* 	==========================================================================
+	GLOBAL
+	========================================================================== */
+#wp-donation-wrap {
+    margin: 24px 0;
+}
+
+#wp-donation-wrap input[type="button"]:focus,
+#wp-donation-wrap input[type="button"]:active,
+#wp-donation-wrap button:focus,
+#wp-donation-wrap button:active {
+    outline: 0!important;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-show {
+    overflow: hidden;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+
+.inline-form {
+    display: table;
+    padding: 0;
+    width: 100%;
+    padding: 12px 0;
+}
+.inline-form input {
+    float: left;
+}
+.inline-form .prepend {
+    display: table-cell;
+    padding: 0 12px 0 0;
+    line-height: 1;
+    vertical-align: middle;
+    width: 1%;
+    white-space: nowrap;
+}
+
+/* 	==========================================================================
+	CUSTOM GRIDS
+	========================================================================== */
+.wpd-row {
+    margin: 0 -12px;
+}
+    .wpd-row:before,
+    .wpd-row:after {
+        content: " ";
+        display: table;
+    }
+    .wpd-row:after {
+        clear: both;
+    }
+
+    .wpd-m-12 {
+        width: 100%;
+        padding: 0 12px;
+    }
+    .wpd-m-6 {
+        width: 50%;
+        padding: 0 12px;
+        float: left;
+    }
+
+    .wpd-m-3 {
+        width: 25%;
+        padding: 0 12px;
+        float: left;
+    }
+
+/* 	==========================================================================
+	PAD
+	========================================================================== */
+.donationpad {
+
+}
+    .donationpad .donationpad_btn {
+        margin: 12px 0;
+        padding: 0 12px;
+        width: 25%;
+        float: left;
+    }
+    .donationpad label {
+        display: block;
+        background: #0da7d4;
+        color: #ffffff;
+        margin-bottom: 0;
+        padding: 30% 0;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        transition-duration: .25s;
+        border-radius: 4px;
+        font-weight: 300;
+    }
+    .donationpad label.selected {
+        background: #014c6c;
+    }
+    .donationpad label input {
+        position: absolute;
+        left: -100px;
+    }
+    .donationpad label span {
+        display: block;
+        text-align: center;
+        font-size: 36px;
+        line-height: 36px;
+    }
+
+    .donationpad_otheramount {
+        width: 100%;
+        padding: 0 12px;
+        float: left;
+    }
+
+    #addinfotext {
+        margin-bottom: 12px;
+    }
+
+.donationopt {
+
+}
+    .donationopt_btn {
+        margin: 12px 0;
+        padding: 0 12px;
+        width: 50%;
+        float: left;
+    }
+    .donationopt label {
+        display: block;
+        background: #eeeeee;
+        color: #646464;
+        margin-bottom: 0;
+        padding: 10px 0;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        text-align: center;
+        transition-duration: .25s;
+        font-weight: 400;
+        border-radius: 4px;
+    }
+    .donationopt label.selected {
+        background: #cccccc;
+    }
+    .donationopt label input {
+        position: absolute;
+        left: -100px;
+    }
+    .donationopt label span {
+        font-size: 20px;
+    }
+
+.donationaddinfo {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+    .donationaddinfo .checkbox {
+        margin-bottom: 12px;
+    }
+    .donationaddinfo label {
+        cursor: pointer;
+    }
+
+.donationsubmit {
+    margin-top: 12px;
+}
+    .donationsubmit .btn {
+        display: block;
+        width: 100%;
+        font-size: 20px;
+    }
+
+/* 	==========================================================================
+	MODAL
+	========================================================================== */
+.modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.9);
+    transition-duration: .25s;
+    visibility: hidden;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    z-index: 9999;
+    overflow-y: auto;
+}
+    .modal.show {
+        visibility: visible;
+        filter: alpha(opacity=100);
+        opacity: 1;
+    }
+
+    .modal-dialog {
+        margin: 60px auto;
+        width: 100%;
+        max-width: 600px;
+        position: relative;
+        background: #ffffff;
+        padding: 24px;
+    }
+
+    .modal-header {
+        position: relative;
+    }
+    .modal-header h4 {
+        margin: 11px 0;
+        padding-right: 54px;
+    }
+    .modal-header button {
+        position: absolute;
+        right: 0;
+    }
+
+.donor_form {
+
+}
+    .donor_form label {
+        display: block;
+    }

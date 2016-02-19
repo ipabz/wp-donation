@@ -3,202 +3,165 @@
     .donationpad label.selected{ background: <?php echo get_option('wpdonation_box_color_2'); ?> !important; }
     .btn.btn-primary{ background: <?php echo get_option('wpdonation_box_color_2'); ?> !important; }
     .btn.btn-primary:hover{ background: <?php echo get_option('wpdonation_box_color_1'); ?> !important; }
-    .input-group-addon { background: <?php echo get_option('wpdonation_box_color_1'); ?> !important; }
-    #otheramount { background: <?php echo get_option('wpdonation_box_color_2'); ?> !important; }
 </style>
-<header class="entry-header text-center">
-    <h2 class="entry-title">Donate to <?php echo get_option('wpdonation_organization_name'); ?></h2>	
-</header>
-<form action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ) ?>" method="POST" id="payment-form" name="payment-form" onSubmit="return validate_cc_exp();">
-    <input type="hidden" name="organization_id" value="1" />
-    <section id="donatenow">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+<div id="wp-donation-wrap">
 
-                <?php if (isset($_SESSION['error'])): ?>
-                <div class="alert alert-danger" role="alert"><?php echo $_SESSION['error']; ?></div>
-                <?php endif; ?>
+    <header class="entry-header text-center">
+        <h2 class="entry-title">Donate to <?php echo get_option('wpdonation_organization_name'); ?></h2>
+    </header>
 
+    <form action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ) ?>" method="POST" id="payment-form" name="payment-form" onSubmit="return validate_cc_exp();">
+        <input type="hidden" name="organization_id" value="1" />
 
-                <div class="row donationfund">
+        <section id="donatenow">
+
+            <div class="wpd-row donationopt">
+                <div class="donationopt_btn">
+                    <label for="donationopt_onetime" class="selected">
+                        <input class="radiobtn" checked="" type="radio" name="wpdonation_donor_recur" value="onetime" id="donationopt_onetime" autocomplete="off" />
+                        <span>One Time</span>
+                    </label>
                 </div>
-                <div class="donationfields clearfix">
+                <div class="donationopt_btn">
+                    <label for="donationopt_monthly">
+                        <input class="radiobtn" type="radio" name="wpdonation_donor_recur" value="monthly" id="donationopt_monthly" autocomplete="off" />
+                        <span>Monthly</span>
+                    </label>
+                </div>
+            </div><!-- /donationopt -->
 
-                    <div class="row donationopt">
-                        <div class="col-xs-6">
-                            <label for="donationopt_onetime" class="selected">
-                                <input class="radiobtn" checked="" type="radio" name="wpdonation_donor_recur" value="onetime" id="donationopt_onetime" autocomplete="off" />
-                                <span>One Time</span>
-                            </label>
-                        </div>
-                        <div class="col-xs-6">
-                            <label for="donationopt_monthly">
-                                <input class="radiobtn" type="radio" name="wpdonation_donor_recur" value="monthly" id="donationopt_monthly" autocomplete="off" />
-                                <span>Monthly</span>
-                            </label>
-                        </div>
+            <div class="wpd-row donationpad">
+                <?php for($i=1;$i<=7;$i++): ?>
+                <div class="donationpad_btn">
+                    <label for="donationamount_1">
+                        <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="<?php echo get_option('wpdonation_amount_'.$i); ?>" id="donationamount_<?php echo $i ?>" autocomplete="off" />
+                        <span><?php if(get_option('wpdonation_amount_label_'.$i) == '') {echo '&nbsp;';} else {echo get_option('wpdonation_amount_label_'.$i);} ?></span>
+                    </label>
+                </div>
+                <?php endfor; ?>
+                <div class="donationpad_btn">
+                    <label for="donationamount_other">
+                        <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="other" id="donationamount_other" autocomplete="off" />
+                        <span>Other</span>
+                    </label>
+                </div>
+                <div id="donationamount_otherinput" class="donationpad_otheramount hidden clearfix">
+                    <div class="inline-form clearfix">
+                        <span class="prepend">$</span>
+                        <input type="text" class="form-control numeric" name="wpdonation_otheramount" id="otheramount" placeholder="" />
                     </div>
+                </div>
+            </div><!-- /donationpad -->
 
-                    <div class="row donationpad">
-                        <?php for($i=1;$i<=7;$i++): ?>
-                        <div class="col-xs-3">
-                            <label for="donationamount_1">
-                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="<?php echo get_option('wpdonation_amount_'.$i); ?>" id="donationamount_<?php echo $i ?>" autocomplete="off" />
-                                <span><?php echo get_option('wpdonation_amount_label_'.$i); ?></span>
-                            </label>
-                        </div>
-                        <?php endfor; ?>
-                        
-                        <div class="col-xs-3">
-                            <label for="donationamount_other">
-                                <input class="radiobtn" type="radio" name="wpdonation_donor_amount" value="other" id="donationamount_other" autocomplete="off" />
-                                <span>Other</span>
-                            </label>
-                        </div>
+            <div class="wpd-row donationaddinfo">
+                <div class="wpd-m-12">
 
-                        <div id="donationamount_otherinput" class="col-xs-12 hidden">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-addon" for="coverccfee">$</div>
-                                    <input type="text" class="form-control numeric" name="wpdonation_otheramount" id="otheramount" placeholder="" />
-                                </div>
-                            </div>
-                        </div>
-
-
+                    <div class="checkbox">
+                        <label for="addinfo">
+                            <input type="checkbox" name="donationaddinfo" id="addinfo" /> Add additional information
+                        </label>
                     </div>
-
-                    <div class="row donationaddinfo">
-                        <div class="col-xs-12">
-                            <div class="checkbox">
-                                <label for="addinfo">
-                                    <input type="checkbox" name="donationaddinfo" id="addinfo" /> Add additional information
-                                </label>
-                            </div>
-                            <div id="addinfotext" class="form-group hidden">
-                                <textarea class="form-control" name="wpdonation_donor_note" rows="4"></textarea>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="donationaddinfo_covercc" id="covercc" value="1" /> I will cover the credit card processing fee
-                                </label>
-                            </div>
-                            <div id="covercctext" class="hidden">
-
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-addon" for="coverccfee">Fee Amount</div>
-                                        <input type="text" class="form-control" name="wpdonation_donor_fee" id="coverccfee" placeholder="Amount" value="0.00" readonly />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-addon" for="covercctotal">Total Donation</div>
-                                        <input type="text" class="form-control" id="covercctotal" placeholder="Amount" value="0.00" disabled />
-                                    </div>
-                                </div>
-
-                            </div>
+                    <div id="addinfotext" class="hidden">
+                        <textarea name="wpdonation_donor_note" rows="4"></textarea>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="donationaddinfo_covercc" id="covercc" value="1" /> I will cover the credit card processing fee
+                        </label>
+                    </div>
+                    <div id="covercctext" class="hidden">
+                        <div class="inline-form clearfix">
+                            <span class="prepend">Fee Amount</span>
+                            <input type="text" class="form-control" name="wpdonation_donor_fee" id="coverccfee" placeholder="Amount" value="0.00" readonly />
+                        </div>
+                        <div class="inline-form clearfix">
+                            <span class="prepend">Total Donation</span>
+                            <input type="text" class="form-control" id="covercctotal" placeholder="Amount" value="0.00" disabled />
                         </div>
                     </div>
 
                 </div>
+            </div><!-- /donationaddinfo -->
 
-                <div class="row donationsubmit">
-                    <div class="col-xs-12">
-                        <input type="button" name="name" class="btn btn-lg btn-primary btn-donate" value="Donate" data-toggle="modal" data-target=""/>
-                    </div>
+            <div class="wpd-row donationsubmit">
+                <div class="wpd-m-12">
+                    <input type="button" name="name" class="btn btn-lg btn-primary btn-donate" value="Donate" data-toggle="modal" data-target=""/>
                 </div>
             </div>
-        </div>
-    </section>
 
-<div class="modal fade" id="donor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
+        </section>
 
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Donate to <?php echo get_option('wpdonation_organization_name'); ?></h4>
-			</div>
+        <div class="modal fade" id="donor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        	<div class="modal-dialog" role="document">
+        		<div class="modal-content">
 
-			<div class="modal-body">
+        			<div class="modal-header clearfix">
+        				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        				<h4 class="modal-title" id="myModalLabel">Donate to <?php echo get_option('wpdonation_organization_name'); ?></h4>
+        			</div>
 
-				<div class="form-horizontal">
+        			<div class="modal-body">
 
-					<span class="payment-errors"></span>
+                        <div class="donor_form">
+        					<p class="payment-errors"></p>
 
-					<div class="form-group">
-						<label for="donor_email" class="col-sm-4 control-label">Email</label>
-						<div class="col-sm-8">
-							<input type="text" name="wpdonation_donor_email" required="" class="form-control" id="donor_email" placeholder="Email" >
-						</div>
-					</div>
+        					<p>
+        						<label for="donor_email" class="col-sm-4 control-label">Email</label>
+        						<input type="text" name="wpdonation_donor_email" required="" class="form-control" id="donor_email" placeholder="Email" >
+        					</p>
 
-					<div class="form-group">
-						<label for="donor_name" class="col-sm-4 control-label">Name</label>
-						<div class="col-sm-8">
-							<input type="text" name="wpdonation_donor_name" required="" class="form-control" id="donor_name" placeholder="Full Name">
-						</div>
-					</div>
+        					<p>
+        						<label for="donor_name" class="col-sm-4 control-label">Name</label>
+        						<input type="text" name="wpdonation_donor_name" required="" class="form-control" id="donor_name" placeholder="Full Name">
+        					</p>
 
-					<div class="form-group">
-						<label for="donor_address" class="col-sm-4 control-label">Address</label>
-						<div class="col-sm-8">
-							<input type="text" name="wpdonation_donor_address" required="" class="form-control" id="donor_address" placeholder="Address">
-						</div>
-					</div>
+        					<p>
+        						<label for="donor_address" class="col-sm-4 control-label">Address</label>
+        						<input type="text" name="wpdonation_donor_address" required="" class="form-control" id="donor_address" placeholder="Address">
+        					</p>
 
-					<div class="form-group">
-						<label for="donor_city" class="col-sm-4 control-label">City</label>
-						<div class="col-sm-8">
-							<input type="text" name="wpdonation_donor_city" required="" class="form-control" id="donor_city" placeholder="City">
-						</div>
-					</div>
+        					<p>
+        						<label for="donor_city" class="col-sm-4 control-label">City</label>
+        						<input type="text" name="wpdonation_donor_city" required="" class="form-control" id="donor_city" placeholder="City">
+        					</p>
 
-					<div class="form-group">
-                        <label for="donor_zipcode" class="col-sm-4 control-label">Zip Code</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="wpdonation_donor_zipcode" required="" class="form-control numeric" id="donor_zipcode" placeholder="Zip Code">
-                        </div>
-                    </div>
+        					<p>
+                                <label for="donor_zipcode" class="col-sm-4 control-label">Zip Code</label>
+                                <input type="text" name="wpdonation_donor_zipcode" required="" class="form-control numeric" id="donor_zipcode" placeholder="Zip Code">
+                            </p>
 
-                    <div class="form-group">
-						<label for="donor_cardnum" class="col-sm-4 control-label">Card Number</label>
-						<div class="col-sm-8">
-							<input type="text" data-stripe="number" name="wpdonation_card_number" required="" class="form-control numeric" id="donor_cardnum" placeholder="Card Number">
-						</div>
-					</div>
+                            <p>
+        						<label for="donor_cardnum" class="col-sm-4 control-label">Card Number</label>
+        						<input type="text" data-stripe="number" name="wpdonation_card_number" required="" class="form-control numeric" id="donor_cardnum" placeholder="Card Number">
+        					</p>
 
-					<div class="form-group">
-						<label for="donor_cvc" class="col-sm-4 control-label">CVC</label>
-						<div class="col-sm-2">
-							<input type="text" class="form-control numeric" id="donor_cvc" size="4" data-stripe="cvc" name="cvv" maxlength="4">
-						</div>
-					</div>
+        					<p>
+        						<label for="donor_cvc" class="col-sm-4 control-label">CVC</label>
+        						<input type="text" class="form-control numeric" id="donor_cvc" size="4" data-stripe="cvc" name="cvv" maxlength="4">
+        					</p>
 
-					<div class="form-group form-inline">
-						<label for="donor_cvc" class="col-sm-4 control-label">Expiration (MM/YYYY)</label>
-						<div class="col-sm-8">
-							<input type="text" size="2" class="form-control numeric" data-stripe="exp-month" name="wpdonation_exp_month" id="exp_month" maxlength="2" required="" />
-							/
-							<input type="text" size="4" class="form-control numeric" data-stripe="exp-year" name="wpdonation_exp_year" id="exp_year" maxlength="4" required="" />
-						</div>
-					</div>
+        					<p>
+        						<label for="donor_cvc" class="col-sm-4 control-label">Expiration (MM/YYYY)</label>
+    							<input type="text" size="2" class="form-control numeric" data-stripe="exp-month" name="wpdonation_exp_month" id="exp_month" maxlength="2" required="" style="width:60px;" />
+    							/
+    							<input type="text" size="4" class="form-control numeric" data-stripe="exp-year" name="wpdonation_exp_year" id="exp_year" maxlength="4" required="" style="width:80px;" />
+        					</p>
 
-				</div>
+        				</div>
 
-			</div>
+        			</div>
 
-			<div class="modal-footer">
-			<button type="submit" class="btn btn-primary donate-button">Donate</button>
-			</div>
+        			<div class="modal-footer">
+        			    <button type="submit" class="btn btn-primary donate-button">Donate</button>
+        			</div>
 
-		</div>
-	</div>
+        		</div>
+        	</div>
+        </div><!-- /modal -->
 
-</div>
-</form>
+    </form>
+
+</div><!-- / wp-donation-wrap -->
 <script>
 function changedFund() {
 	if (jQuery('#fundselect').val() != 'default') {
@@ -237,8 +200,14 @@ jQuery(function() {
 				jQuery(this).attr('data-target', '#donor');
 			}
 		}
-
+        jQuery('#donor').addClass('show');
+        jQuery('body').addClass('modal-show');
 	});
+
+    jQuery('#donor .close').on('click', function() {
+        jQuery('#donor').removeClass('show');
+        jQuery('body').removeClass('modal-show');
+    });
 
 	jQuery('.btn-send').on('click', function(e) {
 		e.preventDefault();
@@ -254,7 +223,7 @@ jQuery(function() {
             }
 
         });
-        
+
         if (hasError) {
             return false;
         }
@@ -360,36 +329,36 @@ jQuery(function() {
 
 function validate_cc_exp() {
     value = parseInt(jQuery('#exp_month').val(), 10);
-    
+
     var m_result = true;
     var y_result = true;
-    
+
     var year = jQuery('#exp_year').val(),
         currentMonth = new Date().getMonth() + 1,
         currentYear  = new Date().getFullYear();
-        
+
     if (value < 1 || value > 12) {
         m_result = false;
     }
-    
+
     if(m_result){
         year = parseInt(year, 10);
         if (year > currentYear || (year == currentYear && value >= currentMonth)) {
             m_result = true;
-        } else {    
+        } else {
             m_result = false;
         }
     }
-    
+
     value = parseInt(jQuery('#exp_year').val(), 10);
-    
+
     var month = jQuery('#exp_month').val(),
         currentMonth = new Date().getMonth() + 1,
         currentYear  = new Date().getFullYear();
     if (value < currentYear || value > currentYear + 10) {
         y_result = false;
     }
-    
+
     if(y_result){
         month = parseInt(month, 10);
         if (value > currentYear || (value == currentYear && month >= currentMonth)) {
@@ -398,7 +367,7 @@ function validate_cc_exp() {
             y_result = false;
         }
     }
-    
+
     if(m_result==true && y_result==true){
         jQuery('#exp_month').removeClass('redifyHim');
         jQuery('#exp_year').removeClass('redifyHim');

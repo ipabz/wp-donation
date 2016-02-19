@@ -1,15 +1,15 @@
 <div class="wrap">
 	<h2>WP-Donation Settings</h2>
-    
+
 	<div id="welcome-panel" class="welcome-panel">
     <form method="post" action="options.php" class="welcome-panel-content">
     	<?php settings_fields('wpdonation_settings'); ?>
-		<?php do_settings_sections('wpdonation_settings'); ?> 
-		
+		<?php do_settings_sections('wpdonation_settings'); ?>
+
         <h2>Organization Details</h2>
         <p class="about-description">Enter the details of the organization that will receive the donation.</p>
         <br />
-        
+
         <table class="form-table">
             <tbody>
                 <tr>
@@ -20,11 +20,11 @@
                 </tr>
             </tbody>
         </table>
-        
+
         <h2 style="margin-top: 50px;">Form Settings</h2>
         <p class="form-description">Configure the look of the form in the website.</p>
         <br />
-        
+
         <table class="form-table" style="width: 600px;">
             <tbody>
                 <tr>
@@ -39,7 +39,7 @@
                         <input type="color" name="wpdonation_box_color_2" class="basic" value="<?php echo get_option('wpdonation_box_color_2'); ?>" />
                     </td>
                 </tr>
-                
+
                 <?php for($i=1;$i<=7;$i++): ?>
                     <tr>
                         <th scope="row"><label for="wpdonation_amount_<?php echo $i; ?>">Amount <?php echo $i; ?></label></th>
@@ -58,7 +58,7 @@
         <h2 style="margin-top: 50px;">Thank You Message</h2>
         <p class="about-description">Enter the verbiage that will show up in the Thank You Message.</p>
         <br />
-        
+
         <table class="form-table">
             <tbody>
                 <tr>
@@ -74,15 +74,15 @@
                         <?php wp_editor( get_option('wpdonation_thankyou_message'), 'wpdonation_thankyou_message', $settings = array() ); ?>
                     </td>
                 </tr>
-                
-            
+
+
             </tbody>
         </table>
 
         <h2 style="margin-top: 50px;">Stripe API Keys</h2>
         <p class="about-description">Login to your Stripe Account, copy the API keys and put it here.</p>
         <br />
-        
+
 		<table class="form-table">
             <tbody>
                 <tr>
@@ -98,12 +98,12 @@
                         <input type="text" id="stripe_public_key" name="wpdonation_stripe_public_key" value="<?php echo get_option('wpdonation_stripe_public_key'); ?>" style="width: 400px;" />
                     </td>
                 </tr>
-                
-            
+
+
             </tbody>
         </table>
-			
-    
+
+
 		<?php submit_button(); ?>
     </form>
 	</div>
@@ -111,32 +111,5 @@
 </div>
 
 <script>
-    
+
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
