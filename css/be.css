@@ -1,6 +1,53 @@
-.wp-box {
-    background: #FFFFFF;
-    border: 1px solid #E5E5E5;
-    position: relative;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+#major-publishing-actions p {
+    margin: 0;
+    padding: 0;
+}
+
+.wpdonation-table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;;
+}
+    .wpdonation-table > tbody > tr > th {
+        padding: 12px;
+        vertical-align: top;
+        border-bottom: 1px solid #dfdfdf;
+        border-right: 1px solid #eeeeee;
+        background: #f9f9f9;
+        text-align: left;
+        width: 20%;
+    }
+        .wpdonation-table > tbody > tr > th > label {
+            padding: 5px 0;
+            display: block;
+            white-space: nowrap;
+        }
+    .wpdonation-table > tbody > tr > td {
+        width: 80%;
+        padding: 12px;
+        vertical-align: top;
+        border-bottom: 1px solid #dfdfdf;
+    }
+
+.wpdonation-nested-table {
+    border-spacing: 0;
+    border-collapse: collapse;;
+}
+    .wpdonation-nested-table tr td {
+        padding-right: 12px;
+    }
+    .wpdonation-nested-table label {
+        display: block;
+        font-weight: bold;
+        padding-bottom: 5px;
+    }
+
+.fw {
+    width: 100%;
+}
+.hw {
+    width: 50%;
+}
+.qw {
+    width: 25%;
 }

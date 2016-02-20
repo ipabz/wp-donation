@@ -169,7 +169,7 @@ class WPDonation {
 		add_action('wp_enqueue_scripts', array($this, 'wpdonation_init_frontend_scripts_styles'));
 
 		add_action('admin_enqueue_scripts', array($this, 'wpdonation_init_backend_scripts_styles'));
-		
+
         add_shortcode('wp-donation', array($this,'wpdonation_ui'));
 		$this->create_post_types();
 
@@ -194,7 +194,8 @@ class WPDonation {
 		      ),
 		      'public' => true,
 		      'has_archive' => true,
-		      'supports' => array('title')
+		      'supports' => array('title'),
+			  'menu_icon' => 'dashicons-heart'
 		    )
 		  );
 
@@ -202,7 +203,7 @@ class WPDonation {
 
 
 	public function wpdonation_settings_page() {
-		add_options_page( 'WP-Donation Options', 'WP-Donation', 'manage_options', 'WP-Donation', array($this, 'wpdonation_settings_page_content') );
+		add_options_page( 'WP-Donation Options', 'WP-Donation', 'manage_options', 'WP-Donation', array($this, 'wpdonation_settings_page_content'));
 	}
 
 	public function wpdonation_settings_page_content() {
