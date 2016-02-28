@@ -1,3 +1,45 @@
+@media only screen and (max-width: 360px) {
+    .donationopt_btn, .wpd-m-12 {
+        padding: 0px 3px;
+    }
+
+    .donationpad .donationpad_btn{
+        margin: 3px 0;
+        padding: 0px 3px;
+    }
+    
+    .donationpad label span{
+        font-size: 14px;
+    }
+    
+    .donationsubmit .btn{
+        font-size: 13px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .donationopt_btn, .wpd-m-12 {
+        padding: 0px 5px;
+    }
+
+    .donationopt label span{
+        font-size: 16px;
+    }
+    
+    .donationpad .donationpad_btn{
+        margin: 5px 0;
+        padding: 0px 5px;
+    }
+    
+    .donationpad label span{
+        font-size: 18px;
+    }
+    
+    .donationsubmit .btn{
+        font-size: 14px;
+    }
+}
+
 /* 	==========================================================================
 	SM // SMALL // TABLET
 	========================================================================== */
@@ -6,6 +48,17 @@
     .donationopt_btn {
         width: 100% !important;
         float: none;
+        margin: 8px 0;
+        padding: 0px 8px;
+    }
+    
+    .donationpad .donationpad_btn{
+        margin: 8px 0;
+        padding: 0px 8px;
+    }
+    
+    .wpd-m-12{
+        padding: 0 8px;
     }
     
     .donationpad label span{
