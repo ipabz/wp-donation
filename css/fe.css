@@ -232,6 +232,10 @@
         position: absolute;
         right: 0;
     }
+    
+    .modal-footer button{
+        color: #ffffff;
+    }
 
 .donor_form {
 
