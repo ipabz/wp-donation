@@ -217,11 +217,13 @@ class WPDonation {
 
 	public function wpdonation_init_frontend_scripts_styles() {
 		wp_register_style( 'frontend', plugins_url('css/fe.css', __FILE__) );
+        wp_register_style( 'rwd', plugins_url('css/rwd.css', __FILE__) );
 
         wp_register_script( 'bootstrap', plugins_url('js/bootstrap.min.js', __FILE__), array( 'jquery' ) );
         wp_register_script( 'jquery-numeric', plugins_url('js/jquery.numeric.min.js', __FILE__),array( 'jquery' ) );
 
         wp_enqueue_style( 'frontend' );
+        wp_enqueue_style( 'rwd' );
 
         wp_enqueue_script( 'bootstrap' );
         wp_enqueue_script( 'jquery-numeric' );

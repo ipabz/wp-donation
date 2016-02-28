@@ -1,17 +1,31 @@
 /* 	==========================================================================
 	SM // SMALL // TABLET
 	========================================================================== */
-@media (min-width: 768px) {
+@media only screen and (max-width: 768px) {
 
-	
-
+    .donationopt_btn {
+        width: 100% !important;
+        float: none;
+    }
+    
+    .donationpad label span{
+        font-size: 24px;
+    }
+    
+    .donationsubmit .btn{
+        font-size: 16px;
+    }
+    
+    .modal-dialog{
+        margin:  10px auto;
+    }
 }
 
 
 /* 	==========================================================================
 	MD // MEDIUM // SMALL DEKSTOP
 	========================================================================== */
-@media (min-width: 992px) {
+@media only screen and (min-width: 992px) {
 
 	
 
@@ -21,7 +35,7 @@
 /* 	==========================================================================
 	LG // LARGE // LARGE DEKSTOP
 	========================================================================== */
-@media (min-width: 1200px) {
+@media only screen and (min-width: 1200px) {
 
 	
 
