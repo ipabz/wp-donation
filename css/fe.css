@@ -83,13 +83,15 @@
 	PAD
 	========================================================================== */
 .donationpad {
-
+    width: 100%;
+    position: relative;
 }
     .donationpad .donationpad_btn {
         margin: 12px 0;
         padding: 0 12px;
         width: 25%;
         float: left;
+        box-sizing: border-box;
     }
     .donationpad label {
         display: block;
@@ -114,7 +116,7 @@
     .donationpad label span {
         display: block;
         text-align: center;
-        font-size: 36px;
+        font-size: 32px;
         line-height: 36px;
     }
 
@@ -129,13 +131,14 @@
     }
 
 .donationopt {
-
+    width: 100%;
 }
     .donationopt_btn {
         margin: 12px 0;
         padding: 0 12px;
         width: 50%;
         float: left;
+        box-sizing: border-box;
     }
     .donationopt label {
         display: block;
@@ -165,6 +168,7 @@
 .donationaddinfo {
     margin-top: 12px;
     margin-bottom: 12px;
+    width: 100%;
 }
 
     .donationaddinfo .checkbox {
@@ -176,6 +180,7 @@
 
 .donationsubmit {
     margin-top: 12px;
+    width: 100%;
 }
     .donationsubmit .btn {
         display: block;

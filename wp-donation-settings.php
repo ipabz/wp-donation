@@ -39,13 +39,15 @@
 				                <tr>
 				                    <th scope="row"><label for="box_color">Color 1</label></th>
 				                    <td>
-				                        <input type="color" name="wpdonation_box_color_1" class="basic" value="<?php echo get_option('wpdonation_box_color_1'); ?>" />
+				                        <input type="text" value="<?php echo get_option('wpdonation_box_color_1'); ?>" placeholder="#e7e7e7" name="wpdonation_box_color_1" id="wpdonation_box_color_1" />
+                                        <input type="color" id="colorpicker_1" class="basic" value="<?php echo get_option('wpdonation_box_color_1'); ?>" style="height: 27px;" />
 				                    </td>
 				                </tr>
 				                <tr>
 				                    <th scope="row"><label for="box_color">Color 2</label></th>
 				                    <td>
-				                        <input type="color" name="wpdonation_box_color_2" class="basic" value="<?php echo get_option('wpdonation_box_color_2'); ?>" />
+                                        <input type="text" name="wpdonation_box_color_2" value="<?php echo get_option('wpdonation_box_color_2'); ?>" placeholder="#e7e7e7" id="wpdonation_box_color_2" />
+				                        <input type="color" id="colorpicker_2" class="basic" value="<?php echo get_option('wpdonation_box_color_2'); ?>" style="height: 27px;" />
 				                    </td>
 				                </tr>
 
@@ -137,6 +139,24 @@
 </div>
 
 <script>
+    jQuery(document).ready(function(){
+        jQuery('#wpdonation_box_color_1').on('change',function(){
+            jQuery('#colorpicker_1').val(jQuery(this).val());
+        })
+        
+        jQuery('#colorpicker_1').on('change',function(){
+            jQuery('#wpdonation_box_color_1').val(jQuery(this).val());
+        })
+        
+        jQuery('#wpdonation_box_color_2').on('change',function(){
+            jQuery('#colorpicker_2').val(jQuery(this).val());
+        })
+        
+        jQuery('#colorpicker_2').on('change',function(){
+            jQuery('#wpdonation_box_color_2').val(jQuery(this).val());
+        })
+    })
+
 	if (jQuery('.post-title-field').val() != '') {
 		jQuery('#title-prompt-text').addClass('screen-reader-text');
 	}
