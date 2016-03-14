@@ -170,7 +170,7 @@ class WPDonation {
 
 		add_action('admin_enqueue_scripts', array($this, 'wpdonation_init_backend_scripts_styles'));
 
-        add_shortcode('wp-donation', array($this,'wpdonation_ui'));
+        add_shortcode('wp-donation', array($this,'wpdonation_shortcode'));
 		$this->create_post_types();
 
         add_filter( 'manage_wpdonation_donors_posts_columns', array($this,'set_custom_edit_donor_columns') );
@@ -377,7 +377,16 @@ class WPDonation {
         update_post_meta($post->ID, "wpdonation_donor_recur_status", $_POST["wpdonation_donor_recur_status"]);
 	}
 
+    
+    public function wpdonation_shortcode(){
+        ob_start();
+        $this->wpdonation_ui();
+        $output_string=ob_get_contents();
+        ob_end_clean();
 
+        return $output_string;
+    }
+    
 	public function wpdonation_ui(){
         if($_POST and !$_SESSION['submitted']){
             $post = array(
