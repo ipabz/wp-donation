@@ -74,79 +74,79 @@ class WPDonation {
 	}
 
 	public function wpdonation_recurring_donations()
-	{
-		$query = new WP_Query( array( 'post_type' => 'wpdonation_donors' ) );
+	{	// not needed as we use stripe subscriptions
+		// $query = new WP_Query( array( 'post_type' => 'wpdonation_donors' ) );
 
-		if ( $query->have_posts() ) {
+		// if ( $query->have_posts() ) {
 
-			while ( $query->have_posts() ) {
-				$query->the_post();
-				$this->wpdonation_do_charge();
-			}
+		// 	while ( $query->have_posts() ) {
+		// 		$query->the_post();
+		// 		$this->wpdonation_do_charge();
+		// 	}
 
-			wp_reset_postdata();
+		// 	wp_reset_postdata();
 
-		}
+		// }
 	}
 
 	public function wpdonation_do_charge()
-	{
-		global $post;
+	{	// Not Needed anymore as we do stripe subscriptions instead
+		// global $post;
 
-		$custom = get_post_custom($post->ID);
+		// $custom = get_post_custom($post->ID);
 
-		if ( $custom["wpdonation_donor_recur_status"][0] === 'Active' && $custom["wpdonation_donor_recur"][0] === 'monthly' ) {
+		// if ( $custom["wpdonation_donor_recur_status"][0] === 'Active' && $custom["wpdonation_donor_recur"][0] === 'monthly' ) {
 
-			$nextRecur = $custom['wpdonation_donor_next_recur'][0];
+		// 	$nextRecur = $custom['wpdonation_donor_next_recur'][0];
 
 
-			if ( date('Y-m-d') === $nextRecur ) {
+		// 	if ( date('Y-m-d') === $nextRecur ) {
 
-				$name = $custom["wpdonation_donor_name"][0];
-				$email = $custom["wpdonation_donor_email"][0];
-				$address = $custom["wpdonation_donor_address"][0];
-				$city = $custom["wpdonation_donor_city"][0];
-				$state = $custom["wpdonation_donor_state"][0];
-				$zipcode = $custom["wpdonation_donor_zipcode"][0];
-				$country = $custom["wpdonation_donor_country"][0];
-		        $recur = $custom["wpdonation_donor_recur"][0];
-		        $amount = $custom["wpdonation_donor_amount"][0];
-		        $fee = $custom["wpdonation_donor_fee"][0];
-		        $note = $custom["wpdonation_donor_note"][0];
-		        $stripeID = $custom['wpdonation_donor_stripe_customer_id'][0];
+		// 		$name = $custom["wpdonation_donor_name"][0];
+		// 		$email = $custom["wpdonation_donor_email"][0];
+		// 		$address = $custom["wpdonation_donor_address"][0];
+		// 		$city = $custom["wpdonation_donor_city"][0];
+		// 		$state = $custom["wpdonation_donor_state"][0];
+		// 		$zipcode = $custom["wpdonation_donor_zipcode"][0];
+		// 		$country = $custom["wpdonation_donor_country"][0];
+		//         $recur = $custom["wpdonation_donor_recur"][0];
+		//         $amount = $custom["wpdonation_donor_amount"][0];
+		//         $fee = $custom["wpdonation_donor_fee"][0];
+		//         $note = $custom["wpdonation_donor_note"][0];
+		//         $stripeID = $custom['wpdonation_donor_stripe_customer_id'][0];
 
-		        $desc = "Recurring Donation from " . $name;
+		//         $desc = "Recurring Donation from " . $name;
 
-		        $metaData = [
-					'Organization' => get_option('wpdonation_organization_name'),
-					'Donor Name' => $name,
-					'Address' => $address . ', ' . $city . ' ' . $zipcode
-				];
+		//         $metaData = [
+		// 			'Organization' => get_option('wpdonation_organization_name'),
+		// 			'Donor Name' => $name,
+		// 			'Address' => $address . ', ' . $city . ' ' . $zipcode
+		// 		];
 
-				$coverFee = false;
+		// 		$coverFee = false;
 
-				if ( isset($_POST['donationaddinfo_covercc']) ) {
-					$coverFee = true;
-				}
+		// 		if ( isset($_POST['donationaddinfo_covercc']) ) {
+		// 			$coverFee = true;
+		// 		}
 
-				$date = date("Y-m-d");
-            	$next = date('Y-m-d', strtotime(date("Y-m-d", strtotime($date)) . " +1 month"));
-				update_post_meta($post->ID, "wpdonation_donor_next_recur", $next);
+		// 		$date = date("Y-m-d");
+  //           	$next = date('Y-m-d', strtotime(date("Y-m-d", strtotime($date)) . " +1 month"));
+		// 		update_post_meta($post->ID, "wpdonation_donor_next_recur", $next);
 
-		        $c = $this->charge(
-		        		$_POST['wpdonation_card_number'],
-		        		$_POST['wpdonation_exp_month'],
-		        		$_POST['wpdonation_exp_year'],
-		        		$amount,
-		        		$desc,
-		        		$coverFee,
-		        		$metaData,
-		        		$post->ID
-		        	);
+		//         $c = $this->charge(
+		//         		$_POST['wpdonation_card_number'],
+		//         		$_POST['wpdonation_exp_month'],
+		//         		$_POST['wpdonation_exp_year'],
+		//         		$amount,
+		//         		$desc,
+		//         		$coverFee,
+		//         		$metaData,
+		//         		$post->ID
+		//         	);
 
-			}
+		// 	}
 
-	    }
+	 //    }
 
 	}
 
@@ -375,6 +375,19 @@ class WPDonation {
         update_post_meta($post->ID, "wpdonation_donor_fee", $_POST["wpdonation_donor_fee"]);
         update_post_meta($post->ID, "wpdonation_donor_note", $_POST["wpdonation_donor_note"]);
         update_post_meta($post->ID, "wpdonation_donor_recur_status", $_POST["wpdonation_donor_recur_status"]);
+
+        if ($_POST["wpdonation_donor_recur_status"] === 'Inactive' && $_POST["wpdonation_donor_recur"] === 'monthly') {
+        	require_once( plugin_dir_path( __FILE__ ) . 'stripe-php/init.php' );
+
+        	\Stripe\Stripe::setApiKey(get_option('wpdonation_stripe_secret_key'));
+
+        	$custom = get_post_custom($post->ID);
+        	$customerID = $custom['wpdonation_donor_stripe_customer_id'][0];
+        	$customer = \Stripe\Customer::retrieve($customerID);
+        	$subID  = $custom['wpdonation_donor_stripe_subscription_id'][0];
+        	$sub = $customer->subscriptions->retrieve($subID);
+        	$sub->cancel(array('at_period_end' => true));
+        }
 	}
 
     
@@ -475,6 +488,62 @@ class WPDonation {
         }
     }
 
+    
+    
+    public function subscribe_customer_to_plan($customerID,$planID,$postID)
+    {
+    	$plan = false;
+    	$customer = false;
+
+    	try {
+	    	$plan = \Stripe\Plan::retrieve($planID);
+	    	$customer = \Stripe\Customer::retrieve($customerID);
+	    } catch(Exception $e) { 
+	    	$plan = false; 
+	    	$customer = false; 
+	    }
+
+	    if ($plan && $customer) {
+
+	    	$sub = $customer->subscriptions->create(array('plan' => $planID));
+	    	update_post_meta($postID, "wpdonation_donor_stripe_subscription_id", $sub->id);
+
+	    }
+	    
+    }
+
+
+    public function create_stripe_subcription_plan($planInfo)
+    {
+    	$plan = false;
+
+    	try {
+	    	$plan = \Stripe\Plan::retrieve($planInfo['id']);
+	    } catch(Exception $e) { $plan = false; }
+
+	    // We only create the plan on stripe if it doesn't exists there
+	    if (!$plan) {
+
+	    	$planID = 'wp-donation-plan-' . $planInfo['amount'];
+
+	        $plan = \Stripe\Plan::create(array(
+	            'amount'   => $planInfo['amount'],
+	            'interval' => 'month',
+	            'currency' => 'usd',
+	            'name'     => 'Plan-'.($planInfo['amount'] / 100),
+	            'id'       => $planID
+	        ));
+
+	        $plan->save();
+
+	    } else {
+	    	$planID = $planInfo['id'];
+	    }
+
+	    return $planID;
+
+    }
+
 
     protected function charge($cardNumber, $expMonth, $expYear, $amount, $description, $coverProcessingFee=false, $metaData=[], $postID=NULL,$donorDetails=[], $currency="usd")
     {
@@ -491,7 +560,8 @@ class WPDonation {
 		$card = [
 			'number' => $cardNumber,
 			'exp_month' => $expMonth,
-			'exp_year' => $expYear
+			'exp_year' => $expYear,
+			'cvc' => $donorDetails['wpdonation_donor_cvc']
 		];
 
 		try {
@@ -521,6 +591,18 @@ class WPDonation {
 				'metadata' => $metaData,
 				'customer' => $customerID
 			]);
+
+			if ($custom["wpdonation_donor_recur"][0] === 'monthly') {
+
+				$planData = [
+					'amount' => $amount,
+					'id' => 'wp-donation-plan-' . $amount
+				];
+
+				$planID = $this->create_stripe_subcription_plan($planData);
+				$this->subscribe_customer_to_plan($customerID, $planID, $postID);
+
+			}
 
 			update_post_meta($postID, "wpdonation_donor_stripe_customer_id", $customer->id);
 

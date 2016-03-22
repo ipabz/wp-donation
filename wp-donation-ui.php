@@ -5,15 +5,25 @@
     .btn.btn-primary:hover{ background: <?php echo get_option('wpdonation_box_color_1'); ?> !important; }
 </style>
 <div id="wp-donation-wrap">
+    
+   
 
     <header class="entry-header text-center">
         <h2 class="entry-title">Donate to <?php echo get_option('wpdonation_organization_name'); ?></h2>
     </header>
 
+    
+
     <form action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ) ?>" method="POST" id="payment-form" name="payment-form" onSubmit="return validate_cc_exp();">
         <input type="hidden" name="organization_id" value="1" />
 
         <section id="donatenow">
+
+            <?php if (isset($_SESSION['error'])): ?>
+             <div class="wpd-row donationopt">
+                <div class="alert alert-danger error-label" role="alert"><?php echo $_SESSION['error']; ?></div>
+             </div>
+            <?php endif; ?>
 
             <div class="wpd-row donationopt">
                 <div class="donationopt_btn">
@@ -137,7 +147,7 @@
 
         					<p>
         						<label for="donor_cvc" class="col-sm-4 control-label">CVC</label>
-        						<input type="text" class="form-control numeric" id="donor_cvc" size="4" data-stripe="cvc" name="cvv" maxlength="4">
+        						<input type="text" class="form-control numeric" id="donor_cvc" size="4" data-stripe="cvc" name="wpdonation_donor_cvc" maxlength="4">
         					</p>
 
         					<p>
