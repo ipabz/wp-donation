@@ -1,9 +1,7 @@
 # Setup
 
-1) Upload to the /wp-content/plugins/ directory
+1) Upload to the /wp-content/plugins/ directory and activate the plugin.
 
-2) On the wordpress wp-config.php file, add the following line then save
+That's it.
 
-    define('DISABLE_WP_CRON', true);
-    
-3) Create a cron job and point it to http://yourwordpressbaseurl.com/wp-cron.php and set it to run daily.
+
